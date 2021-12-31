@@ -22,13 +22,13 @@ public class Main {
 
         int n = Integer.parseInt(br.readLine());
         int[] dp = new int[n + 1];      // index 1 ~ n 사용
-        dp[1] = 1;      dp[2] = 2;      // 초항 A(1), A(2)
 
         if (n <= 2) {
-            System.out.println(dp[n]);
+            System.out.println(n);
             return;
         }
 
+        dp[1] = 1;      dp[2] = 2;      // 초항 A(1), A(2)
         for (int i = 3; i <= n; i++)
             dp[i] = (dp[i - 1] + dp[i - 2]) % 10007;
 
