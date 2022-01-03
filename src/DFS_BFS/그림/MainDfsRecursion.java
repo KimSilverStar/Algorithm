@@ -22,7 +22,7 @@ import java.util.StringTokenizer;
 public class MainDfsRecursion {
     static int n, m;                // n: 도화지 세로 크기, m: 도화지 가로 크기
     static boolean[][] paper;       // 가로 m, 세로 n 도화지
-    static boolean[][] check;       // 노드 방문 확인
+    static boolean[][] check;       // 방문 확인
 
     static int numOfPicture = 0;    // 그림 개수
     static int maxArea = 0;         // 가장 넓은 그림의 넓이
@@ -43,7 +43,7 @@ public class MainDfsRecursion {
             // 1. 다음 지점이 도화지 범위 안에 있고
             if (0 <= nextRow && nextRow < n &&
                 0 <= nextCol && nextCol < m) {
-                // 2. 다음 지점이 그림이고 아직 방문 안한 경우
+                // 2. 그림이고 아직 방문 안한 경우
                 if (paper[nextRow][nextCol] && !check[nextRow][nextCol])
                     dfs(nextRow, nextCol);
             }
@@ -61,7 +61,6 @@ public class MainDfsRecursion {
 
         paper = new boolean[n][m];
         check = new boolean[n][m];
-
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
 
