@@ -1,17 +1,15 @@
 package DFS_BFS.그림;
 import java.io.*;
-import java.util.Queue;
-import java.util.LinkedList;
-import java.util.StringTokenizer;
+import java.util.*;
 
 /*
 1. 아이디어
  - 2중 for 문으로 도화지 paper[][] 를 차례로 확인
-   => 해당 지점이 그림(1, true)이고 아직 방문 안했으면, 해당 지점을 기준으로 BFS 수행 (Queue 에 해당 지점 push)
+   => 해당 지점이 그림(1, true)이고 아직 방문 안했으면, 해당 지점을 기준으로 BFS 수행 (Queue 에 해당 지점 추가)
  - BFS: Queue 가 empty 할 때까지 반복
    1) Queue 에서 좌표를 하나씩 꺼냄
    2) 꺼낸 좌표를 기준으로 상하좌우 확인
-   3) 좌표의 상하좌우 각각에서 도화지 범위 안이고, 그림이고, 아직 방문 안했으면 Queue 에 push
+   3) 좌표의 상하좌우 각각에서 도화지 범위 안이고, 그림이고, 아직 방문 안했으면 Queue 에 추가
 
 2. 자료구조
  - boolean[][]: 도화지(그래프)
@@ -29,7 +27,6 @@ public class MainBfs {
     static int n, m;                // n: 도화지 세로 크기, m: 도화지 가로 크기
     static boolean[][] paper;       // 도화지
     static boolean[][] check;       // 방문 확인
-    static Queue<Coord> queue = new LinkedList<>();
 
     static int[] dy = { -1, 1, 0, 0 };      // 상하좌우
     static int[] dx = { 0, 0, -1, 1 };
@@ -38,7 +35,11 @@ public class MainBfs {
     static int maxArea = 0;         // 최대 그림 넓이
     static int area = 0;            // 탐색한 그림의 넓이
 
-    static int bfs() {
+    static void bfs(int row, int col) {
+        Queue<Coord> queue = new LinkedList<>();
+
+        queue.add(new Coord(row, col));
+        check[row][col] = true;
         area++;
 
         while (!queue.isEmpty()) {
@@ -54,15 +55,13 @@ public class MainBfs {
                     0 <= nextCol && nextCol < m) {
                     // 2. 다음 지점이 그림이고 아직 방문 안한 경우
                     if (paper[nextRow][nextCol] && !check[nextRow][nextCol]) {
+                        queue.add(new Coord(nextRow, nextCol));
                         check[nextRow][nextCol] = true;
                         area++;
-                        queue.add(new Coord(nextRow, nextCol));
                     }
                 }
             }
         }
-
-        return area;
     }
 
     public static void main(String[] args) throws IOException {
@@ -78,6 +77,7 @@ public class MainBfs {
         check = new boolean[n][m];
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
+
             for (int j = 0; j < m; j++) {
                 int input = Integer.parseInt(st.nextToken());
                 if (input == 1)
@@ -90,11 +90,10 @@ public class MainBfs {
             for (int j = 0; j < m; j++) {
                 // 해당 지점이 그림이고 아직 방문 안한 경우
                 if (paper[i][j] && !check[i][j]) {
-                    check[i][j] = true;
                     numOfPicture++;
+                    bfs(i, j);
 
-                    queue.add(new Coord(i, j));
-                    maxArea = Math.max(maxArea, bfs());
+                    maxArea = Math.max(maxArea, area);
                     area = 0;
                 }
             }

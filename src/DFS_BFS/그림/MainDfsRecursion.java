@@ -21,8 +21,8 @@ import java.util.StringTokenizer;
 
 public class MainDfsRecursion {
     static int n, m;                // n: 도화지 세로 크기, m: 도화지 가로 크기
-    static boolean[][] paper;       // 도화지
-    static boolean[][] check;         // 노드 방문 확인
+    static boolean[][] paper;       // 가로 m, 세로 n 도화지
+    static boolean[][] check;       // 노드 방문 확인
 
     static int numOfPicture = 0;    // 그림 개수
     static int maxArea = 0;         // 가장 넓은 그림의 넓이
@@ -31,9 +31,11 @@ public class MainDfsRecursion {
     static int[] dy = { -1, 1, 0, 0 };           // 상하좌우
     static int[] dx = { 0, 0, -1, 1 };
 
-    static int dfs(int row, int col) {
+    static void dfs(int row, int col) {
+        check[row][col] = true;
         area++;
 
+        // 상하좌우 확인
         for (int i = 0; i < 4; i++) {
             int nextRow = row + dy[i];
             int nextCol = col + dx[i];
@@ -42,14 +44,10 @@ public class MainDfsRecursion {
             if (0 <= nextRow && nextRow < n &&
                 0 <= nextCol && nextCol < m) {
                 // 2. 다음 지점이 그림이고 아직 방문 안한 경우
-                if (paper[nextRow][nextCol] && !check[nextRow][nextCol]) {
-                    check[nextRow][nextCol] = true;
+                if (paper[nextRow][nextCol] && !check[nextRow][nextCol])
                     dfs(nextRow, nextCol);
-                }
             }
         }
-
-        return area;
     }
 
     public static void main(String[] args) throws IOException {
@@ -79,10 +77,10 @@ public class MainDfsRecursion {
             for (int j = 0; j < m; j++) {
                 // 해당 지점이 그림이고 아직 방문 안했으면, DFS 수행
                 if (paper[i][j] && !check[i][j]) {
-                    check[i][j] = true;
                     numOfPicture++;
+                    dfs(i, j);
 
-                    maxArea = Math.max(maxArea, dfs(i, j));
+                    maxArea = Math.max(maxArea, area);
                     area = 0;
                 }
             }
