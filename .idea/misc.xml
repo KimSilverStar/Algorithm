@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+<<<<<<< HEAD
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
   </component>
@@ -7,6 +8,9 @@
     <option name="state" value="project://e2804f05-5315-4fc6-a121-c522a6c26470" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_16" default="true" project-jdk-name="16" project-jdk-type="JavaSDK">
+=======
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_16" project-jdk-name="16" project-jdk-type="JavaSDK">
+>>>>>>> f2350200f705ac577db9536b7012aceda66f4379
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

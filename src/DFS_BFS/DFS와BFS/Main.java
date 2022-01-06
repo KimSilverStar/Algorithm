@@ -18,7 +18,7 @@ import java.util.*;
     (1) Queue 에 시작 vertex 를 넣음
     (2) Queue 가 empty 할 때 까지 반복
        - Queue 에서 vertex 를 하나 꺼냄
-       - 꺼낸 노드와 연결된 vertex 가 존재하고 해당 연결된 vertex 를 방문 안한 경우,
+       - 꺼낸 vertex 와 연결된 vertex 가 존재하고 해당 연결된 vertex 를 방문 안한 경우,
          해당 연결된 vertex 를 Queue 에 추가
 
 2. 자료구조
@@ -32,9 +32,9 @@ import java.util.*;
 */
 
 public class Main {
-    static boolean[][] graph;       // 그래프 연결 상태 저장 (인접 행렬)
-    static boolean[] check;         // 정점 방문 확인
     static int n, m, v;             // n: 정점 vertex 개수, m: 간선 edge 개수, v: 탐색 시작 vertex 번호
+    static boolean[][] graph;       // 그래프 (인접 행렬 형태로 저장)
+    static boolean[] check;         // 정점 방문 확인
 
     static void dfs(int start) {
         check[start] = true;
@@ -50,7 +50,7 @@ public class Main {
     static void bfs(int start) {
         Queue<Integer> queue = new LinkedList<>();
 
-        queue.add(start);
+        queue.add(start);               // Queue 에 vertex 추가하고, 방문 처리
         check[start] = true;
         System.out.print(start + " ");
 
