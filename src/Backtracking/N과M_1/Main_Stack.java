@@ -28,7 +28,7 @@ public class Main_Stack {
 	static Stack<Integer> selectedNumbers = new Stack<>();		// 선택된 숫자들
 
 	/* depth: 현재까지 선택한 숫자 개수, 백트래킹 재귀 호출(트리)에서의 깊이 */
-	public static void solution(int depth) {
+	static void solution(int depth) {
 		// 재귀 종료 조건: m개의 숫자를 선택한 경우
 		if (depth == m) {
 			for (int number : selectedNumbers)
@@ -58,7 +58,7 @@ public class Main_Stack {
 
 		n = Integer.parseInt(st.nextToken());
 		m = Integer.parseInt(st.nextToken());
-		check = new boolean[n + 1];
+		check = new boolean[n + 1];			// [1 ~ n] 사용
 
 		solution(0);
 	}
