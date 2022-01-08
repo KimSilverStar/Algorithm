@@ -1,7 +1,6 @@
 package Backtracking.N과M_2;
 import java.io.*;
 import java.util.StringTokenizer;
-import java.util.Stack;
 
 /*
 1. 아이디어
@@ -13,7 +12,7 @@ import java.util.Stack;
 
 2. 자료구조
  - boolean[]: 1 ~ n 선택(방문) 여부
- - Stack<Integer>: 선택한 숫자들 저장
+ - int[]: 선택한 숫자들 저장
 
 3. 시간 복잡도
  - Backtracking Algorithm 의 시간 복잡도
@@ -22,17 +21,17 @@ import java.util.Stack;
      - n 최대값 대입: 8! = 40,320 << 1억 (1초)
 */
 
-public class Main_Stack {
+public class Main_Arr {
 	static int n, m;			// 1 ~ n 까지 자연수, 중복없이 m개 선택 (오름차순)
 	static boolean[] check;
-	static Stack<Integer> selectedNumbers = new Stack<>();
+	static int[] selectedNumbers;
 
 	/* depth: 현재까지 선택한 숫자 개수, 백트래킹 재귀 호출(트리)에서의 깊이 */
 	static void solution(int depth) {
 		// 재귀함수 종료 조건
 		if (depth == m) {
-			for (int number : selectedNumbers)
-				System.out.print(number + " ");
+			for (int num : selectedNumbers)
+				System.out.print(num + " ");
 			System.out.println();
 			return;
 		}
@@ -40,15 +39,13 @@ public class Main_Stack {
 		for (int i = 1; i <= n; i++) {
 			// 아직 방문하지 않았고, 이전에 선택한 수 보다 더 큰 수 선택
 			if (!check[i] &&
-					(depth == 0 || i > selectedNumbers.peek())) {
-				// depth == 0 대신 selectedNumbers.isEmpty() 가능
+					(depth == 0 || i > selectedNumbers[depth - 1])) {
 				check[i] = true;
-				selectedNumbers.push(i);
+				selectedNumbers[depth] = i;
 				solution(depth + 1);
 
 				// 재귀함수 호출 종료 후, 복귀 시점
 				check[i] = false;
-				selectedNumbers.pop();
 			}
 		}
 	}
@@ -62,6 +59,7 @@ public class Main_Stack {
 		n = Integer.parseInt(st.nextToken());
 		m = Integer.parseInt(st.nextToken());
 		check = new boolean[n + 1];
+		selectedNumbers = new int[m];
 
 		solution(0);
 	}
