@@ -19,16 +19,18 @@ import java.util.Stack;
  - Backtracking Algorithm 의 시간 복잡도
    1) 중복 있는 경우 => O(n^n) => n <= 8 까지 가능
    2) 중복 없는 경우 => O(n!) => n <= 10 까지 가능
+     - n 최대값 대입: 8! = 40,320 << 1억 (1초)
 */
 
-public class Main {
+public class Main_Stack {
 	static int n, m;			// 1 ~ n 까지 자연수, 중복없이 m개 선택 (오름차순)
 	static boolean[] check;
 	static Stack<Integer> selectedNumbers = new Stack<>();
 
-	public static void solution(int selectCount) {
+	/* depth: 현재까지 선택한 숫자 개수, 백트래킹 재귀 호출(트리)에서의 깊이 */
+	public static void solution(int depth) {
 		// 재귀함수 종료 조건
-		if (selectCount == m) {
+		if (depth == m) {
 			for (int number : selectedNumbers)
 				System.out.print(number + " ");
 			System.out.println();
@@ -36,14 +38,13 @@ public class Main {
 		}
 
 		for (int i = 1; i <= n; i++) {
-			if (!check[i]) {
-				if (!selectedNumbers.isEmpty() &&
-						selectedNumbers.peek() > i)
-					continue;
-
+			// 아직 방문하지 않았고, 이전에 선택한 수 보다 더 큰 수 선택
+			if (!check[i] &&
+					(depth == 0 || i > selectedNumbers.peek())) {
+				// depth == 0 대신 selectedNumbers.isEmpty() 가능
 				check[i] = true;
 				selectedNumbers.push(i);
-				solution(selectCount + 1);
+				solution(depth + 1);
 
 				// 재귀함수 호출 종료 후, 복귀 시점
 				check[i] = false;
