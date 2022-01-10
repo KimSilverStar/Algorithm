@@ -6,9 +6,8 @@ import java.util.PriorityQueue;
 
 /*
 1. 아이디어
- - 입력 n x n 행렬을 마지막 행부터 PriorityQueue 에 입력
- - n 번재 큰 수 = 맨 아래 행에서부터 n 번째 행에 존재
- => PriorityQueue 에 맨 아래 행부터 입력하여 오름차순으로 정렬되도록 함
+ - 입력 n x n 행렬의 수들을 PriorityQueue 에 입력
+   => PriorityQueue 에 수들이 오름차순으로 정렬되도록 함
 
 2. 자료구조
  - int[][]: 행렬에 적힌 수 (20억이 안되므로 int 가능)
@@ -24,7 +23,7 @@ public class Main_PriorityQueue {
 	static PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
 
 	static int solution() {
-		for (int i = n - 1; i >= 0; i--) {
+		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++)
 				pq.add(numbers[i][j]);
 		}
