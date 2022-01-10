@@ -1,0 +1,13 @@
+* Priority Queue의 시간 복잡도	(n: 노드 개수)
+ - 삽입: O(lg n)
+ - 삭제: O(lg n)
+ => 노드 수 n을 최소(내부 Heap의 크기를 최소)로
+    유지하면서, Priority Queue를 사용하는 것이 바람직
+
+
+* Arrays.Sort() 하는 것보다
+  Priority Queue의 사용이 더 유리한 경우
+ - 특정 n 번째(n 개) 큰 수 등을 찾을 때
+   => Priority Queue에서 저장 노드 개수를 n으로 유지
+ - 입력을 받는 도중, 실시간으로
+   n 번째 큰 수 등을 갱신해야 하는 경우
