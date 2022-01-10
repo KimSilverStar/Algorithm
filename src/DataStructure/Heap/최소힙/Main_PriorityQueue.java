@@ -10,17 +10,19 @@ import java.util.PriorityQueue;
      + 빈 배열이면 0 출력
 
 1. 아이디어
-
+ - PriorityQueue 에 입력 x 를 추가 또는 삭제
 
 2. 자료구조
  - PriorityQueue<Integer>
 
 3. 시간 복잡도
+ - PriorityQueue 의 시간 복잡도
+   => 삽입 / 삭제: O(log n)
 */
 
-public class Main {
+public class Main_PriorityQueue {
 	static int n;			// 연산의 개수
-	static int x;			// 자연수 또는 0
+	static int x;			// 자연수 또는 0 입력
 	static PriorityQueue<Integer> pq = new PriorityQueue<>();
 
 	public static void main(String[] args) throws IOException {
