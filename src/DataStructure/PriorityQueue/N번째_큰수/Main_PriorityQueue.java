@@ -14,8 +14,8 @@ import java.util.PriorityQueue;
  - int[][]: 행렬에 적힌 수 (20억이 안되므로 int 가능)
  - PriorityQueue<Integer>: 행렬에 적힌 수 입력하여 오름차순 정렬
 
-3. 시간 복잡도
- - O(n log n) ??
+3. Priority Queue 의 시간 복잡도
+ - 삽입 / 삭제: O(log n)	(n: 노드 개수)
 */
 
 public class Main_PriorityQueue {
