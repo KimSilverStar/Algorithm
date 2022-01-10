@@ -7,11 +7,11 @@ import java.util.PriorityQueue;
 /*
 1. 아이디어
  - 입력 n x n 행렬의 수들을 PriorityQueue 에 입력
-   => PriorityQueue 에 수들이 오름차순으로 정렬되도록 함
+   => PriorityQueue 에 수들이 내림차순으로 정렬되도록 함
 
 2. 자료구조
  - int[][]: 행렬에 적힌 수 (20억이 안되므로 int 가능)
- - PriorityQueue<Integer>: 행렬에 적힌 수 입력하여 오름차순 정렬
+ - PriorityQueue<Integer>: 행렬에 적힌 수 입력하여 내림차순 정렬
 
 3. Priority Queue 의 시간 복잡도
  - 삽입 / 삭제: O(log n)	(n: 노드 개수)
