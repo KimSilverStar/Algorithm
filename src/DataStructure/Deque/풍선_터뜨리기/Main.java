@@ -31,7 +31,7 @@ import java.util.Deque;
  - Deque 구현체로 LinkedList 사용하여, 메모리 초과 발생
    => Deque<Balloon> deque = new LinkedList();
    => 원인) LinkedList 는 이중 연결리스트로 메모리량이 많음
- - 단순히 덱의 앞/뒤에서 item 을 삽입/삭제 하는 경우,
+ - 단순히 덱의 맨 앞 / 뒤에서 item 을 삽입 / 삭제 하는 경우,
    LinkedList 보다는 ArrayDeque 을 사용하는 것이 메모리량에서 효율적
 */
 
@@ -66,11 +66,7 @@ public class Main {
 					balloon = deque.removeFirst();
 					deque.addLast(balloon);
 				}
-
 				balloon = deque.removeFirst();
-				poppedValue = balloon.getValue();
-				sb.append(balloon.getId())
-						.append(" ");
 			}
 			// 2) 터뜨린 풍선의 값이 음수 -k인 경우
 			else {
@@ -78,12 +74,11 @@ public class Main {
 					balloon = deque.removeLast();
 					deque.addFirst(balloon);
 				}
-
 				balloon = deque.removeLast();
-				poppedValue = balloon.getValue();
-				sb.append(balloon.getId())
-						.append(" ");
 			}
+
+			poppedValue = balloon.getValue();
+			sb.append(balloon.getId()).append(" ");
 		}
 
 		return sb.toString();
