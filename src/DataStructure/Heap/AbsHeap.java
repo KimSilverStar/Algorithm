@@ -19,8 +19,6 @@ package DataStructure.Heap;
  2) 빈 루트 노드 arr[1]를 마지막 노드 arr[size]로 채움
  3) 루트 노드 arr[1] ~ arr[size-1] 까지 내려가면서 부모, 자식 비교해가면서 힙 정렬
    - ReHeapification Downward
-
-*** ReHeapification
 */
 
 public class AbsHeap {
