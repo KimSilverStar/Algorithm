@@ -17,7 +17,7 @@ package DataStructure.Heap;
 2. int remove()
  1) 루트 노드 arr[1]을 삭제
  2) 빈 루트 노드 arr[1]를 마지막 노드 arr[size]로 채움
- 2) 루트 노드 arr[1] ~ arr[size-1] 까지 내려가면서 부모, 자식 비교하면서 정렬
+ 2) 루트 노드 arr[1] ~ arr[size-1] 까지 내려가면서 부모, 자식 비교해가면서 힙 정렬
    - ReHeapification Downward
 */
 
@@ -67,7 +67,7 @@ public class MinHeap {
 	}
 
 	public boolean isEmpty() { return size == 0; }
-	public int getSize() { return size; }
+	public int size() { return size; }
 
 	private void swap(int idx1, int idx2) {
 		int temp = arr[idx1];
