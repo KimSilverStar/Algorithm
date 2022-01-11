@@ -7,15 +7,12 @@ import java.util.PriorityQueue;
 public class Main_PriorityQueue {
 	static int n;		// 수행할 연산 개수
 	static int x;		// 정수 x
-	static PriorityQueue<Integer> pq = new PriorityQueue<>(new Comparator<>() {
-		@Override
-		public int compare(Integer o1, Integer o2) {
-			int absDiff = Math.abs(o1) - Math.abs(o2);
-			if (absDiff != 0)
-				return absDiff;
-			else
-				return o1 - o2;
-		}
+	static PriorityQueue<Integer> pq = new PriorityQueue<>((o1, o2) -> {
+		int absDiff = Math.abs(o1) - Math.abs(o2);
+		if (absDiff != 0)
+			return absDiff;
+		else
+			return o1 - o2;
 	});
 
 	public static void main(String[] args) throws IOException {
