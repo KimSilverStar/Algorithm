@@ -17,9 +17,20 @@ import java.util.StringTokenizer;
  - int[][]: 행렬에 적힌 수 (20억이 안되므로 int 가능)
  - PriorityQueue<Integer>: 행렬에 적힌 수 입력하여 오름차순 정렬
 
-3. Priority Queue 의 시간 복잡도
- - 삽입 / 삭제: O(log n)	(n: 노드 개수)
-   => 저장되는 노드 개수 n 을 최소로 유지하여 시간 성능 높임
+3. 시간 복잡도
+ - Priority Queue의 시간 복잡도
+   => 삽입 / 삭제: O(log n)	(n: 노드 개수)
+
+  1) `PriorityQueue`에 최초 n개 입력: log 1 + log 2 + ... + log n
+      = log (1 x 2 x ... x n) = log(n!)
+  2) 이후 `pq.add()`, `pq.remove()` 반복: n(n-1) x 2 log n
+  => 총 log(n!) + n(n-1) x 2 log n
+  => n 최대값 대입: log(1500!) + 1500(1500-1) x 2 log 1500
+  ~= 4,115 + 2,248,500 x 2 (log 15 + log 10^2)
+  ~= 4,115 + 2,248,500 x 2 (1 + 2)
+  ~= 4,115 + 2,248,500 x 6
+  ~= 4,115 + 2,248,500 x 6
+  ~= 13,495,115 << 1억 (1초)
 */
 
 public class Main_PriorityQueue_Upgrade {
