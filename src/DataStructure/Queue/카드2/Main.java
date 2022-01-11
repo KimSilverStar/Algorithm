@@ -25,7 +25,7 @@ public class Main {
     static Queue<Integer> queue = new LinkedList<>();
 
     static int solution() {
-        while (true) {
+        while (!queue.isEmpty()) {
         	if (queue.size() == 1)
         		break;
 
