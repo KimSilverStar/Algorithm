@@ -1,7 +1,6 @@
-package DataStructure.Heap.절대값_힙;
+package DataStructure.Heap.절댓값_힙;
 
 import java.io.*;
-import java.util.Comparator;
 import java.util.PriorityQueue;
 
 /*
