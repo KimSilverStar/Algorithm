@@ -16,8 +16,11 @@ import java.util.PriorityQueue;
  - PriorityQueue<Integer>
 
 3. 시간 복잡도
- - PriorityQueue 의 시간 복잡도
-   => 삽입 / 삭제: O(log n)
+ - PriorityQueue / Heap 의 시간 복잡도
+   => 삽입 / 삭제: O(log n)		(n: 노드 개수)
+ - 최대 총 n번 삽입 / 삭제 발생
+   => 대충 최대 n log n
+   => n 최대값 대입: 10^5 x log 10^5 = 5 x 10^5 << 1억 (1초)
 */
 
 public class Main_PriorityQueue {
@@ -30,8 +33,9 @@ public class Main_PriorityQueue {
 				new InputStreamReader(System.in)
 		);
 
-		n = Integer.parseInt(br.readLine());
+		StringBuilder sb = new StringBuilder();
 
+		n = Integer.parseInt(br.readLine());
 		for (int i = 0; i < n; i++) {
 			x = Integer.parseInt(br.readLine());
 
@@ -39,10 +43,12 @@ public class Main_PriorityQueue {
 				pq.add(x);
 			else if (x == 0) {
 				if (!pq.isEmpty())
-					System.out.println(pq.remove());
+					sb.append(pq.remove()).append("\n");
 				else
-					System.out.println(0);
+					sb.append(0).append("\n");
 			}
 		}
+
+		System.out.println(sb.toString());
 	}
 }
