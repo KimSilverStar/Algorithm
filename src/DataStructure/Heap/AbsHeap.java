@@ -34,11 +34,12 @@ public class AbsHeap {
 
 		// ReHeapification Upward
 		for (int i = size; i > 1; i /= 2) {
-			// 부모의 절대값 > 자식의 절대값 => 교체(정렬)
-			if (Math.abs(arr[i / 2]) > Math.abs(arr[i]))
+			int absParent = Math.abs(arr[i / 2]);
+			int absChild = Math.abs(arr[i]);
+
+			if (absParent > absChild)			// |부모| > |자식|
 				swap(i / 2, i);
-			// 부모의 절대값 == 자식의 절대값 => 값이 더 작은 수가 루트 노드로 교체
-			else if (Math.abs(arr[i / 2]) == Math.abs(arr[i])) {
+			else if (absParent == absChild) {	// |부모| == |자식|
 				if (arr[i / 2] > arr[i])		// 부모 > 자식
 					swap(i / 2, i);
 			}
@@ -60,8 +61,8 @@ public class AbsHeap {
 			int leftChildAbs = Math.abs(arr[i * 2]);
 			int rightChildAbs = Math.abs(arr[i * 2 + 1]);
 
-			// (부모 절대값 < 자식 절대값)
-			// 또는 (부모 절대값 == 자식 절대값 && 부모 값 < 자식 값)
+			// |부모| < |자식| 또는
+			// |부모| == |자식| && 부모 < 자식
 			boolean isLeftSorted = (parentAbs < leftChildAbs) ||
 					(parentAbs == leftChildAbs && arr[i] < arr[i * 2]);
 			boolean isRightSorted = (parentAbs < rightChildAbs) ||
@@ -83,13 +84,13 @@ public class AbsHeap {
 			// 왼쪽 자식의 절대값 == 오른쪽 자식의 절대값
 			else {
 				// 값이 더 작은 자식과 부모 교체
-				if (arr[i * 2] > arr[i * 2 + 1]) {
-					swap(i, i * 2 + 1);
-					i = i * 2 + 1;
-				}
-				else {
+				if (arr[i * 2] < arr[i * 2 + 1]) {
 					swap(i, i * 2);
 					i = i * 2;
+				}
+				else {
+					swap(i, i * 2 + 1);
+					i = i * 2 + 1;
 				}
 			}
 		}

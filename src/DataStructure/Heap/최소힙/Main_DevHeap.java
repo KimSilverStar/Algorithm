@@ -16,11 +16,14 @@ import java.io.*;
  - 루트 노드에 min 값 위치
 
 2. 자료구조
- - MinHeap: 구현한 최소힙
+ - MinHeap: 구현한 최소 힙
 
 3. 시간 복잡도
- - Heap (Priority Queue) 의 시간 복잡도
-   => 삽입 / 삭제: O(log n)
+ - PriorityQueue / Heap 의 시간 복잡도
+   => 삽입 / 삭제: O(log n)		(n: 노드 개수)
+ - 최대 총 n번 삽입 / 삭제 발생
+   => 대충 최대 n log n
+   => n 최대값 대입: 10^5 x log 10^5 = 5 x 10^5 << 1억 (1초)
 */
 
 public class Main_DevHeap {
@@ -32,6 +35,7 @@ public class Main_DevHeap {
 		BufferedReader br = new BufferedReader(
 				new InputStreamReader(System.in)
 		);
+		StringBuilder sb = new StringBuilder();
 
 		n = Integer.parseInt(br.readLine());
 		minHeap = new MinHeap(n + 1);
@@ -43,10 +47,12 @@ public class Main_DevHeap {
 				minHeap.add(x);
 			else if (x == 0) {
 				if (!minHeap.isEmpty())
-					System.out.println(minHeap.remove());
+					sb.append(minHeap.remove()).append("\n");
 				else
-					System.out.println(0);
+					sb.append(0).append("\n");
 			}
 		}
+
+		System.out.println(sb.toString());
 	}
 }
