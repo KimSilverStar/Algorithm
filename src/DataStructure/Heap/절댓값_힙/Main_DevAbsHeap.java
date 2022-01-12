@@ -23,8 +23,11 @@ import java.io.*;
  - AbsHeap: 구현한 절대값 힙
 
 3. 시간 복잡도
- - Heap (Priority Queue)의 시간 복잡도
+ - PriorityQueue 의 시간 복잡도
    => 삽입 / 삭제: O(log n)
+ - 최대 총 n번 삽입 / 삭제 발생
+   => 대충 최대 n log n
+   => n 최대값 대입: 10^5 x log 10^5 = 5 x 10^5 << 1억 (1초)
 */
 
 public class Main_DevAbsHeap {
@@ -36,6 +39,7 @@ public class Main_DevAbsHeap {
 		BufferedReader br = new BufferedReader(
 				new InputStreamReader(System.in)
 		);
+		StringBuilder sb = new StringBuilder();
 
 		n = Integer.parseInt(br.readLine());
 		absHeap = new AbsHeap(n + 1);
@@ -47,10 +51,12 @@ public class Main_DevAbsHeap {
 				absHeap.add(x);
 			else {		// x == 0
 				if (!absHeap.isEmpty())
-					System.out.println(absHeap.remove());
+					sb.append(absHeap.remove()).append("\n");
 				else
-					System.out.println(0);
+					sb.append(0).append("\n");
 			}
 		}
+
+		System.out.println(sb.toString());
 	}
 }
