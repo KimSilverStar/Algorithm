@@ -16,8 +16,8 @@ import java.util.*;
    1) 해당 과목의 수강 신청 인원이 넉넉한 경우
      - 1 투자
    2) 해당 과목의 수강 신청 인원이 넉넉하지 않은 경우
-     - 수강 가능 인원 수 만큼 pq.remove()
-     - 마지막에 pq.remove()한 인원의 마일리지 만큼 투자
+     - 수강 가능 마지막 인원이 투자한 만큼의 마일리지를 나도 투자
+
 
 2. 자료구조
  - Integer[]: 각 과목에서 학생들이 투자한 마일리지 배열
@@ -40,9 +40,10 @@ import java.util.*;
 */
 
 public class Main {
-	static int n;				// 전체 과목 수
-	static int m;				// 주어진 마일리지
-	static Integer[] mArr;		// 각 과목에서 학생들이 투자한 마일리지 배열 => 높은 순으로 정렬
+	static int n;						// 전체 과목 수
+	static int m;						// 주어진 마일리지
+	static int numOfStudent, numOfPass;	// 각 과목에 투자한 학생 수, 수강 가능 인원
+	static Integer[] mArr;				// 각 과목에서 학생들이 투자한 마일리지 배열 => 높은 순으로 정렬
 	static PriorityQueue<Integer> pq = new PriorityQueue<>();
 	// 각 과목에서 내가 투자할 최소 마일리지 순으로 정렬
 
@@ -54,10 +55,11 @@ public class Main {
 
 		n = Integer.parseInt(st.nextToken());
 		m = Integer.parseInt(st.nextToken());
+
 		for (int i = 0; i < n; i++) {
 			st = new StringTokenizer(br.readLine());
-			int numOfStudent = Integer.parseInt(st.nextToken());	// 해당 과목에 투자한 학생 수
-			int numOfPass = Integer.parseInt(st.nextToken());		// 수강 가능 인원
+			numOfStudent = Integer.parseInt(st.nextToken());	// 해당 과목에 투자한 학생 수
+			numOfPass = Integer.parseInt(st.nextToken());		// 수강 가능 인원
 
 			st = new StringTokenizer(br.readLine());
 			mArr = new Integer[numOfStudent];
