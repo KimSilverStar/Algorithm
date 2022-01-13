@@ -11,13 +11,13 @@ import java.util.ArrayDeque;
    - 빈 배열에 D 연산하면 "error" 출력
 
 1. 아이디어
- - Deque 를 통해 주어진 R, D 함수 수행
+ - Deque 을 통해 주어진 R, D 함수 수행
  1) R 함수 (뒤집기)
-   - reverse flag 변수 조정
+   - isReversed flag 변수 조정
  2) D 함수 (맨 앞 요소 삭제)
-   - reverse == true (배열이 뒤집힌 상태)이면,
+   - isReversed == true (배열이 뒤집힌 상태)이면,
      Deque 의 뒤에서 삭제 후, 결과 배열 뒤에서부터 출력
-   - reverse == false 이면,
+   - isReversed == false 이면,
      Deque 의 앞에서 삭제 후, 결과 배열 앞에서부터 출력
 
 2. 자료구조
@@ -35,82 +35,89 @@ import java.util.ArrayDeque;
 */
 
 public class Main {
-	static int t;		// 테스트 케이스 개수
+	static int t;			// 테스트 케이스 개수
 
-	static String p;	// 수행할 함수들
-	static int n;		// 배열에 들어있는 정수의 개수
-	static Deque<Integer> deque = new ArrayDeque<>();	// 입력 배열을 Deque 에 저장
-	static boolean isReversed = false;		// R (뒤집힌 상태) 여부
+	static String p;		// 수행할 함수들
+	static int n;			// 배열에 들어있는 정수의 개수
+	static Deque<Integer> deque;		// 입력 배열을 Deque 에 저장
+	static boolean isReversed;			// R (뒤집힌 상태) 여부
+
+	static StringTokenizer st;
+
+	/* 입력 배열 문자열 파싱하여 Deque 에 배열 원소 저장 */
+	static void parseArr() {
+		StringBuilder parsedNum;
+
+		while (st.hasMoreTokens()) {
+			String token = st.nextToken();
+			parsedNum = new StringBuilder();		// 숫자 파싱하여 저장
+
+			for (int i = 0; i < token.length(); i++) {
+				if (Character.isDigit(token.charAt(i)))
+					parsedNum.append(token.charAt(i));
+			}
+
+			if (parsedNum.length() != 0) {
+				int num = Integer.parseInt(parsedNum.toString());
+				deque.addLast(num);
+			}
+		}
+	}
 
 	// 테스트 케이스 1개 수행
 	static String ac() {
-		// R 또는 D 함수들 실행
+		StringBuilder output = new StringBuilder();
+
 		for (int i = 0; i < p.length(); i++) {
 			if (p.charAt(i) == 'R')
 				isReversed = !isReversed;
-			else if (p.charAt(i) == 'D') {	// 빈 배열이면 "error" 출력 후, 해당 테스트 케이스 종료
-				if (deque.isEmpty())
+			else {			// 'D' 함수
+				if (!deque.isEmpty()) {
+					if (isReversed)
+						deque.removeLast();
+					else
+						deque.removeFirst();
+				}
+				else		// deque 이 empty 한 경우
 					return "error";
-
-				if (!isReversed)		// 앞에서 삭제
-					deque.removeFirst();
-				else		// 뒤에서 삭제
-					deque.removeLast();
 			}
 		}
 
-		// sb 에 결과 배열 저장
-		StringBuilder sb = new StringBuilder();
-		sb.append("[");
-		if (!isReversed) {		// 앞에서부터 저장
-			while (!deque.isEmpty()) {
-				sb.append(deque.removeFirst());
-				if (!deque.isEmpty())
-					sb.append(",");
-			}
-		}
-		else {		// 뒤에서부터 저장
-			while (!deque.isEmpty()) {
-				sb.append(deque.removeLast());
-				if (!deque.isEmpty())
-					sb.append(",");
-			}
-		}
-		sb.append("]");
+		output.append("[");
 
-		return sb.toString();
+		while (!deque.isEmpty()) {
+			int popped = isReversed ?
+					deque.removeLast() : deque.removeFirst();
+			output.append(popped);
+
+			if (!deque.isEmpty())
+				output.append(",");
+		}
+
+		output.append("]");
+		return output.toString();
 	}
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(
 				new InputStreamReader(System.in)
 		);
-		StringTokenizer st;
+		StringBuilder sb = new StringBuilder();
 
 		t = Integer.parseInt(br.readLine());		// 테스트 케이스 개수
 		for (int i = 0; i < t; i++) {
 			p = br.readLine();		// 수행할 함수들
 			n = Integer.parseInt(br.readLine());
-			deque = new ArrayDeque<>();
 
+			deque = new ArrayDeque<>();
 			// 콤마 "," 단위로 파싱 (구분자인 콤마도 토큰에 포함)
 			st = new StringTokenizer(br.readLine(), ",", true);
-			while (st.hasMoreTokens())  {
-				StringBuilder parsedNum = new StringBuilder();		// 파싱한 정수 문자열
-				String token = st.nextToken();
-
-				for (int j = 0; j < token.length(); j++) {
-					if (Character.isDigit(token.charAt(j)))
-						parsedNum.append(token.charAt(j));
-				}
-
-				if (parsedNum.length() != 0)
-					deque.addLast(Integer.parseInt(parsedNum.toString()));
-			}
-
-			System.out.println(ac());
+			parseArr();
 
 			isReversed = false;
+			sb.append(ac()).append("\n");
 		}
+
+		System.out.println(sb.toString());
 	}
 }
