@@ -30,7 +30,7 @@ e.g. 입력 수식 "(1 + (2 * (3 + 4)))" 에서 재귀 함수 init 호출 이후
 
 2. 자료구조
  - String: 입력 수식 (변경 X)
- - char[]: 입력 문자열에서 괄호 쌍 제거 작업
+ - char[]: 입력 수식에서 괄호 쌍 제거 작업
  - Stack<Integer>: 괄호의 index 저장. 괄호 쌍 매칭 용도
  - ArrayList<Pair>: 괄호 쌍 index 들을 저장
  - TreeSet<String>: 괄호 쌍을 제거한 수식들 저장
@@ -68,9 +68,9 @@ public class Main {
 		// 재귀 종료
 		if (pairIdx == pairs.size()) {
 			// Set 에 결과 수식 문자열 저장
-			String result = new String(expression);
-			result = result.replaceAll(" ", "");		// 괄호 제거 처리한 공백을 제거
-			set.add(result);
+			String output = new String(expression);
+			output = output.replaceAll(" ", "");		// 괄호 제거 처리한 공백을 제거
+			set.add(output);
 			return;
 		}
 
@@ -91,10 +91,8 @@ public class Main {
 		for (int i = 0; i < input.length(); i++) {
 			if (input.charAt(i) == '(')
 				stack.push(i);
-			else if (input.charAt(i) == ')') {
-				Pair pair = new Pair(stack.pop(), i);	// 괄호 시작, 끝 index
-				pairs.add(pair);
-			}
+			else if (input.charAt(i) == ')')
+				pairs.add(new Pair(stack.pop(), i));
 		}
 	}
 
@@ -102,20 +100,20 @@ public class Main {
 		BufferedReader br = new BufferedReader(
 				new InputStreamReader(System.in)
 		);
+		StringBuilder sb = new StringBuilder();
 
 		input = br.readLine();		// 입력 수식
-		expression = new char[input.length()];
-		for (int i = 0; i < input.length(); i++)
-			expression[i] = input.charAt(i);
+		expression = input.toCharArray();
+//		expression = new char[input.length()];
+//		for (int i = 0; i < input.length(); i++)
+//			expression[i] = input.charAt(i);
 
 		matchBrackets();
-		solution(0);
+		solution(0);		// Init Call
 
 		set.remove(input);
-		// 괄호 쌍이 제거되지 않은 수식(입력 수식과 같은 결과 수식) 제외
+		// 예외 처리: 괄호 쌍이 제거되지 않은 수식(입력 수식과 같은 결과 수식) 제외
 
-		// Set 에서 출력
-		StringBuilder sb = new StringBuilder();
 		for (String str : set)
 			sb.append(str).append("\n");
 
