@@ -1,7 +1,17 @@
 # Algorithm
 알고리즘 유형별 문제 풀이
 
-<br/>
+<br/><br/>
+
+## Data Structure
+### Stack
+
+### Queue
+
+### Deque
+
+### Priority Queue / Heap
+
 <br/>
 
 ## DFS & BFS
