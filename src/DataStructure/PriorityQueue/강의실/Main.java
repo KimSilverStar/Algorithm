@@ -25,13 +25,11 @@ import java.util.PriorityQueue;
  - PriorityQueue<Lesson>: 현재 진행 중인 강의 저장 (강의실 개념), 종료 시간 빠른 순으로 힙 정렬
 
 3. 시간 복잡도
- - 강의 배열 정렬: O(n log n)
- - PriorityQueue / Heap 의 시간 복잡도: O(log n)	(n: 노드 개수)
- - 강의들을 PriorityQueue 에 삽입 및 삭제 반복
-   : 대충 log 1 + log 2 + ... + log n
-      = log(n!) = n log n
- => 총 시간 복잡도: O(2n log n)
- => n 최대값 대입: 2 x 10^5 x 5 = 10^6 << 2억 (2초)
+ - 입력 강의 배열 저장 후 정렬: O(n + n log n)
+ - 강의들을 PriorityQueue 에 삽입 및 삭제 반복 (새로 강의 추가 및 진행 중인 강의 종료 삭제)
+   : 대충 2(log 1 + log 2 + ... + log n) = 2 log(n!) = 2n log n
+ => 총 시간 복잡도: O(n + 3n log n)
+ => n 최대값 대입: 10^5 + 3 x 10^5 x 5 = 16 x 10^5 << 2억 (2초)
 */
 
 
