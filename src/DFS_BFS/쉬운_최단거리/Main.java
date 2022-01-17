@@ -24,7 +24,9 @@ import java.util.LinkedList;
 
 3. 시간 복잡도
  - DFS / BFS 의 시간 복잡도: O(V + E)		(V: vertex 개수, E: edge 개수)
- -
+   => V: n x m, E: 한 vertex 당 4개 edge (상하좌우 연결) 가정 = 대충 4V
+   => O(V + E) = O(5V) = O(5 x n x m)
+   => n, m 최대값 대입: 5 x 10^ 3 x 10^3 = 5 x 10^6 << 1억 (1초)
 */
 
 class Coord {
