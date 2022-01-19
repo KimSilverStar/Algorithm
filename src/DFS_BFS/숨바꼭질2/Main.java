@@ -39,6 +39,7 @@ import java.util.*;
  - BFS 풀이로 메모리 초과 발생
    => 조건이 만족되지 않는 부분을 탐색하지 말아야 하는데, 탐색 해버림
    => 탐색 제한하는 조건이 빠짐
+ - 최종 해결 방안) boolean[] check = new boolean[100001] 사용
 */
 
 class Pair {
