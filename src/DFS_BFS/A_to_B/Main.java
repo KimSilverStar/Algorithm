@@ -28,7 +28,7 @@ import java.util.*;
 
 2. 자료구조
  - Queue<Pair>, LinkedList<Pair>: BFS 수행
-   => Pair: 연산 수행 결과 값, 연산 수행 횟수 쌍
+   => Pair: 연산 결과 값, 연산 횟수 쌍
 
 3. 시간 복잡도
 */
@@ -55,7 +55,6 @@ class Pair {
 
 public class Main {
 	static long A, B;				// 입력 정수
-	static int minCount = 0;		// 출력, 최소 연산 횟수
 
 	static Queue<Pair> queue = new LinkedList<>();
 
