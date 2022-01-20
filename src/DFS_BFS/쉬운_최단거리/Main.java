@@ -19,7 +19,7 @@ import java.util.LinkedList;
 
 2. 자료구조
  - int[][]: 목표 지점 -> 각 지점들로의 거리 저장
- - Queue<Coord>, LinkedList<Coord>: BFS 수행
+ - Queue<Coord>, LinkedList<Coord>: BFS
  - boolean[][]: 방문 확인
 
 3. 시간 복잡도
