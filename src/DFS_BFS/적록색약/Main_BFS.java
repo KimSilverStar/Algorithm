@@ -3,7 +3,7 @@ import java.io.*;
 import java.util.*;
 
 /*
-- DFS_BFS.적록색약: R == G 로 봄
+- 적록색약: R == G 로 봄
 - 같은 구역 => 같은 색
 - 같은 색이 상하좌우로 인접한 경우, 두 글자는 같은 구역에 속함
 => 정상인이 본 구역 수, 적록색약이 본 구역 수 구하기
@@ -16,7 +16,7 @@ import java.util.*;
    => Queue 에 탐색 시작 좌표, 현재 색깔 추가
  - BFS
    => 정상인) 다음 지점이 현재 지점과 같은 색이고 아직 방문 안한 경우, 탐색 확장
-   => DFS_BFS.적록색약) 다음 지점이 현재 지점과 같은 색 or 구분 못하는 색이고 아직 방문 안한 경우, 탐색 확장
+   => 적록색약) 다음 지점이 현재 지점과 같은 색 or 구분 못하는 색이고 아직 방문 안한 경우, 탐색 확장
 
 2. 자료구조
  - Queue<Coord>, LinkedList<Coord>: BFS
@@ -27,7 +27,7 @@ import java.util.*;
    => V: n x n, E: 한 vertex 당 최대 4개 edge 연결 가정하면 E = 4V
    => O(V + E) = O(5V) = O(5 x n^2)
    => n 최대값 대입: 5 x 10^4
-   => 정상인 or DFS_BFS.적록색약 1명이 수행하는 DFS: 5 x 10^4
+   => 정상인 or 적록색약 1명이 수행하는 BFS: 5 x 10^4
    => 총 시간 복잡도 = 2 x (5 x 10^4) = 10^5 << 1억 (1초)
 */
 
@@ -57,19 +57,16 @@ public class Main_BFS {
 	static void bfs1() {
 		while (!queue.isEmpty()) {
 			Coord current = queue.remove();
-			int row = current.getRow();
-			int col = current.getCol();
-			char color = map[row][col];			// 현재 위치의 색깔
 
 			for (int i = 0; i < 4; i++) {
-				int nextRow = row + dy[i];
-				int nextCol = col + dx[i];
+				int nextRow = current.getRow() + dy[i];
+				int nextCol = current.getCol() + dx[i];
 
 				if (0 <= nextRow && nextRow < n &&
 						0 <= nextCol && nextCol < n) {
+					boolean isSameColor = map[current.getRow()][current.getCol()] == map[nextRow][nextCol];
 					// 다음 지점이 현재 지점과 같은 색이고, 아직 방문 안한 경우
-					if (color == map[nextRow][nextCol]
-							&& !check[nextRow][nextCol]) {
+					if (isSameColor && !check[nextRow][nextCol]) {
 						check[nextRow][nextCol] = true;
 						queue.add(new Coord(nextRow, nextCol));
 					}
@@ -82,19 +79,22 @@ public class Main_BFS {
 	static void bfs2() {
 		while (!queue.isEmpty()) {
 			Coord current = queue.remove();
-			int row = current.getRow();
-			int col = current.getCol();
-			char color = map[row][col];			// 현재 위치의 색깔
 
 			for (int i = 0; i < 4; i++) {
-				int nextRow = row + dy[i];
-				int nextCol = col + dx[i];
+				int nextRow = current.getRow() + dy[i];
+				int nextCol = current.getCol() + dx[i];
 
 				if (0 <= nextRow && nextRow < n &&
 						0 <= nextCol && nextCol < n) {
-					boolean isSameColor = (color == map[nextRow][nextCol]);
-					boolean isSimilarColor1 = (color == 'R' && map[nextRow][nextCol] == 'G');
-					boolean isSimilarColor2 = (color == 'G' && map[nextRow][nextCol] == 'R');
+					boolean isSameColor = map[current.getRow()][current.getCol()] == map[nextRow][nextCol];
+					boolean isSimilarColor1 = (
+							map[current.getRow()][current.getCol()] == 'R'
+									&& map[nextRow][nextCol] == 'G'
+					);
+					boolean isSimilarColor2 = (
+							map[current.getRow()][current.getCol()] == 'G'
+									&& map[nextRow][nextCol] == 'R'
+					);
 
 					// 다음 지점이 현재 지점과 같은 색 or 구분 못하는 색이고, 아직 방문 안한 경우
 					if (!check[nextRow][nextCol] && (isSameColor ||
