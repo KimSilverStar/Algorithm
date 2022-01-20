@@ -10,13 +10,11 @@ import java.util.*;
  - 행렬 입력하면서, 집과 치킨 집들의 좌표를 각각 리스트에 저장
  1) 전체 치킨 집들 중에서 중복없이 m개 치킨 집 선택
  2) 선택한 m개 치킨 집들에서 치킨 집 1개씩 확인
-   - 각 집들을 기준으로, 각 집과 m개 치킨 집들의 거리 계산하여 배열에 저장
-   - 최소 거리로 갱신해나감
-   - 선택한 m개 치킨 집들의 치킨 거리 합 (도시의 치킨 거리) 계산하여 리스트에 저장
- 3) 도시의 치킨 거리들 중에서, 최소값 출력
+   - 각 집들을 기준으로, 각 집과 m개 치킨 집들의 거리 계산하여 최소 거리로 갱신해나감
+   - 선택한 m개 치킨 집들의 치킨 거리 합 (도시의 치킨 거리) 계산하여 최소 값으로 갱신해나감
 
 * 브루트 포스 + 백트래킹 으로 가능한 모든 치킨 가게 조합을 구성하여 확인
- - 13개 (최대 치킨 집 개수)에서 중복, 순서 상관없이 m개 선택
+ - 13개 (최대 치킨 집 개수)에서 중복없이, 순서 상관없이 m개 선택
  => 조합 (Combination): C(13, m)
 
 2. 자료구조
@@ -52,14 +50,13 @@ import java.util.*;
 public class Main {
 	static int n;				// n행 n열
 	static int m;				// 선택할 치킨 집 개수
+	static int minCityDistance = Integer.MAX_VALUE;
+	// 출력 값: 도시의 최소 치킨 거리 (선택한 m개의 치킨 집과 모든 집들의 거리 합 중 최소)
 
 	static List<Coord> homeList = new ArrayList<>();		// 모든 집 좌표들
 	static List<Coord> chickenList = new ArrayList<>();		// 모든 치킨 가게 좌표들
 	static List<Coord> selectedChickenList = new ArrayList<>();		// 선택한 m개 치킨 집들
 	static boolean[] checkChickenList;			// chickenList 방문 확인
-
-	static int minCityDistance = Integer.MAX_VALUE;
-	// 출력 값: 도시의 최소 치킨 거리 (선택한 m개의 치킨 집과 모든 집들의 거리 합 중 최소)
 
 	/* idx: 치킨 집 선택 시작 index */
 	static void solution(int idx) {
@@ -96,6 +93,11 @@ public class Main {
 		}
 	}
 
+	static int calcDistance(Coord c1, Coord c2) {
+		return Math.abs(c1.getRow() - c2.getRow())
+				+ Math.abs(c1.getCol() - c2.getCol());
+	}
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(
 				new InputStreamReader(System.in)
@@ -117,16 +119,10 @@ public class Main {
 		}
 
 		checkChickenList = new boolean[chickenList.size()];
-		
+
 		// 전체 치킨 집들 중에서, 중복없이 m개 선택
 		solution(0);
 
 		System.out.println(minCityDistance);
-	}
-
-	static int calcDistance(Coord chicken, Coord home) {
-		int rowDiff = Math.abs(chicken.getRow() - home.getRow());
-		int colDiff = Math.abs(chicken.getCol() - home.getCol());
-		return rowDiff + colDiff;
 	}
 }
