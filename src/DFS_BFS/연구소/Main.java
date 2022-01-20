@@ -1,4 +1,4 @@
-package 연구소;
+package DFS_BFS.연구소;
 import java.io.*;
 import java.util.*;
 
