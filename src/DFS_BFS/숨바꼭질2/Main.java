@@ -40,6 +40,7 @@ import java.util.*;
 2. 자료구조
  - Queue<>, LinkedList<>: BFS 수행
  - boolean[]: 방문 확인
+ - int[]: 해당 위치까지 도달하는 데 걸리는 최소 시간 갱신해나감
 
 3. 시간 복잡도
  - 인접 리스트 DFS / BFS 의 시간 복잡도: O(V + E)
