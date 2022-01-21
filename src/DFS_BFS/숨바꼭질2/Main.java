@@ -19,7 +19,11 @@ import java.util.*;
  - 탐색 종료 조건
    => 소요된 시간 > 최소 시간인 경우
  - 다음 탐색 지점 추가
-   => 다음 후보 지점이 범위 안에 있고, 아직 방문 안한 경우
+   1) 다음 후보 지점이 범위 안에 있고, 아직 방문 안한 경우
+   2) 다음 후보 지점을 이미 방문 했더라도 이동 시간이 해당 지점으로의 최소 이동 시간과 같은 경우
+     => 다른 경로로 같은 최소 시간으로, 같은 지점을 가는 경우
+     e.g. start -> 1 -> 2 -> 3
+     	  start -> 1 -> 4 -> 3
 
   !!! DFS 가 아닌 BFS 를 사용한 이유
      - 탐색으로 목표 지점(동생)을 찾은 경우,
@@ -51,10 +55,18 @@ import java.util.*;
 */
 
 /* 오답 노트 2
- - BFS 풀이로 메모리 초과 발생
+ 1) BFS 풀이로 메모리 초과 발생
    => 조건이 만족되지 않는 부분을 탐색하지 말아야 하는데, 탐색 해버림
    => 탐색 제한하는 조건이 빠짐
- - 최종 해결 방안) boolean[] check = new boolean[100001] 사용
+   => 최종 해결 방안) boolean[] check = new boolean[100001] 사용
+   
+ 2) 다음 탐색 지점 추가 시, 중복 방문이 허용되는 경우가 존재
+   => 이미 방문한 지점이더라도, 최소 시간(거리)로 도달하는 경우
+   1. 다음 후보 지점이 범위 안에 있고, 아직 방문 안한 경우
+   2. 다음 후보 지점을 이미 방문 했더라도 이동 시간이 해당 지점으로의 최소 이동 시간과 같은 경우
+      => 다른 경로로 같은 최소 시간으로, 같은 지점을 가는 경우
+      e.g. start -> 1 -> 2 -> 3
+       	   start -> 1 -> 4 -> 3
 */
 
 class Pair {
@@ -76,37 +88,53 @@ public class Main {
 	static final int MAX_POSITION = 100000;		// 최대 맨 끝 위치
 
 	static Queue<Pair> queue = new LinkedList<>();
-	static boolean[] check = new boolean[100001];		// [1 ~ 10만] 사용
+	static boolean[] check = new boolean[MAX_POSITION + 1];	// [1 ~ 10만] 사용
+	static int[] minTimes = new int[MAX_POSITION + 1];		// 각 지점으로의 최소 시간 저장
 
 	static void bfs() {
-		queue.add(new Pair(n, 0));
-
 		while (!queue.isEmpty()) {
 			Pair current = queue.remove();
 			int position = current.getPosition();		// 현재 위치
 			int time = current.getTime();				// 현재까지 소요된 시간
-			check[position] = true;			// 현재 위치 방문 처리
 
-			// 탐색 종료 조건: 소요된 시간 > 최소 시간
-			if (time > minTime)
+			// 종료 조건: 목표 지점 (동생)으로 도달한 최소 시간 < 현재 위치까지 도달한 최소 시간
+			// => 더 탐색해도 목표 지점까지 최소 시간으로 도달하지 못함 (가망 없음)
+			if (minTime < minTimes[position])
 				return;
 
-			if (position == k) {						// 찾은 경우
-				minTime = Math.min(minTime, time);
+			// 최초로 최단 시간으로 찾은 경우
+			if (position == k) {
+//				minTime = Math.min(minTime, time);
+				minTime = time;
 				count++;
 			}
 
-			// 다음 지점 탐색
-			int nextPos1 = position + 1;
-			int nextPos2 = position - 1;
+			// 연산하여 다음 지점 탐색
+			int nextPos1 = position - 1;
+			if (0 <= nextPos1 && nextPos1 <= MAX_POSITION) {
+				// 다음 지점을 방문 안했거나 or 방문 했더라도 최소 시간으로 가는 경우
+				if (!check[nextPos1] || minTimes[nextPos1] == time + 1) {
+					check[nextPos1] = true;
+					minTimes[nextPos1] = time + 1;
+					queue.add(new Pair(nextPos1, time + 1));
+				}
+			}
+			int nextPos2 = position + 1;
+			if (0 <= nextPos2 && nextPos2 <= MAX_POSITION) {
+				if (!check[nextPos2] || minTimes[nextPos2] == time + 1) {
+					check[nextPos2] = true;
+					minTimes[nextPos2] = time + 1;
+					queue.add(new Pair(nextPos2, time + 1));
+				}
+			}
 			int nextPos3 = position * 2;
-
-			if (nextPos1 <= MAX_POSITION && !check[nextPos1])
-				queue.add(new Pair(nextPos1, time + 1));
-			if (nextPos2 >= 0 && !check[nextPos2])
-				queue.add(new Pair(nextPos2, time + 1));
-			if (nextPos3 <= MAX_POSITION && !check[nextPos3])
-				queue.add(new Pair(nextPos3, time + 1));
+			if (0 <= nextPos3 && nextPos3 <= MAX_POSITION ) {
+				if (!check[nextPos3] || minTimes[nextPos3] == time + 1) {
+					check[nextPos3] = true;
+					minTimes[nextPos3] = time + 1;
+					queue.add(new Pair(nextPos3, time + 1));
+				}
+			}
 		}
 	}
 
@@ -119,19 +147,17 @@ public class Main {
 		n = Integer.parseInt(st.nextToken());		// 수빈 위치
 		k = Integer.parseInt(st.nextToken());		// 동생 위치
 
-		if (n == k) {			// 시작하자마자 찾은 경우
-			System.out.println(0);
-			System.out.println(1);
-			return;
-		}
-		else if (n > k) {		// 수빈 위치가 동생보다 더 뒤인 경우
+		if (n >= k) {
 			// -1 칸씩 n-k 번 이동하는 한 가지
-			System.out.println(n - k);
-			System.out.println(1);
-			return;
+			minTime = n - k;
+			count = 1;
 		}
-
-		bfs();
+		else {
+			check[n] = true;
+			minTimes[n] = 0;
+			queue.add(new Pair(n, 0));
+			bfs();
+		}
 
 		System.out.println(minTime);
 		System.out.println(count);
