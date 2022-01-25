@@ -46,7 +46,7 @@ import java.util.*;
 
 /* 오답 노트
  - 단순히 방문만 확인하는 배열 boolean[] check 만 사용
- - 싸이클(순환)
+ - 싸이클(순환) 탐색을 별도로 확인하는 것을 생각 못함
 */
 
 public class Main {
@@ -65,8 +65,9 @@ public class Main {
 		int nextId = students[currentId];			// 선택 당한 학생 번호 (다음 학생 번호)
 		if (!check[nextId])		// 다음 학생을 방문 안한 경우 => 탐색 확장
 			dfs(nextId);
-		else {					// 다음 학생을 이미 방문한 경우 => 순환(팀) 이루는지 확인
+		else {					// 다음 학생을 이미 방문한 경우 => 순환 구성
 			if (!finished[nextId]) {
+				// 싸이클 중에서 팀을 구성하는 인원 카운트
 				soloCount--;
 
 				// e.g. 4 -> 7 -> 6 (currentId) -> 4 (nextId)
