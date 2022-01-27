@@ -1,4 +1,4 @@
-package 말이_되고픈_원숭이;
+package DFS_BFS.말이_되고픈_원숭이;
 import java.io.*;
 import java.util.*;
 
