@@ -1,4 +1,4 @@
-package 벽_부수고_이동하기;
+package DFS_BFS.벽_부수고_이동하기;
 import java.io.*;
 import java.util.*;
 
