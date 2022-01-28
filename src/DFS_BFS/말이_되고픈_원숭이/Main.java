@@ -29,8 +29,7 @@ import java.util.*;
 2. 자료구조
  - Queue<Point>, LinkedList<Point>: BFS
    => Point: 현재 지점, 현재 지점까지의 말처럼 동작한 횟수, 전체 동작 횟수
- - boolean[][] checkHorse: 말처럼 동작하여 방문 여부
- - boolean[][] checkMonkey: 원숭이로 동작하여 방문 여부
+ - boolean[][][]: [y, x] 위치를 말 처럼 k 번 동작하여 방문 여부 확인
 
 3. 시간 복잡도
  - BFS 1번 수행
