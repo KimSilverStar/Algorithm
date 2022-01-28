@@ -54,8 +54,9 @@ public class Main_Recursive1 {
 		int rightChildIdx = treeIdx * 2 + 1;
 
 		// 재귀 종료 조건: Leaf 노드까지 내려간 경우
-		if (leftChildIdx > nodeCount || rightChildIdx > nodeCount)
-			return;
+//		if (leftChildIdx > nodeCount || rightChildIdx > nodeCount)
+		if (startIdx == endIdx)
+				return;
 
 		recursive(startIdx, parentIdx - 1, leftChildIdx);	// left subtree
 		recursive(parentIdx + 1, endIdx, rightChildIdx);		// right subtree
