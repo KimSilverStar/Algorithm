@@ -63,7 +63,7 @@ public class Main_BFS {
 				rootNode = i;
 				continue;
 			}
-			lists[parent].add(i);
+			lists[parent].add(i);		// parent 노드의 자식 노드들 저장
 		}
 		deleteNode = Integer.parseInt(br.readLine());
 

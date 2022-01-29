@@ -30,10 +30,10 @@ public class Main_DFS {
 	static int leafCount;			// 출력 값: 노드 삭제 후, 남은 Leaf 노드 개수
 	static int rootNode;			// 루트 노드 번호
 
-	/* node: 삭제할 노드 */
+	/* deleteNode: 삭제할 노드 */
 	static void dfs(int delteNode) {
-		List<Integer> list = lists[delteNode];
-		if (list.isEmpty())
+		List<Integer> list = lists[delteNode];		// 삭제할 노드의 자식 노드들
+		if (list.isEmpty())			// 삭제할 노드가 Leaf 노드인 경우
 			leafCount--;
 
 		for (int child : list)
@@ -57,7 +57,7 @@ public class Main_DFS {
 				rootNode = i;
 				continue;
 			}
-			lists[parent].add(i);
+			lists[parent].add(i);		// parent 노드의 자식 노드들 저장
 		}
 		deleteNode = Integer.parseInt(br.readLine());
 
