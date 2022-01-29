@@ -17,7 +17,7 @@ import java.util.*;
  - List<Integer>[], ArrayList<Integer>[]: (인접) 리스트
    => i 번 노드의 자식 노드들을 lists[i] 에 저장
    e.g. 예제 입력 1) lists[0] = { 1, 2 }, lits[1] = { 3, 4 }
- - Queue<List<Integer>>, LinkedList<List<Integer>>: BFS
+ - Queue<Integer>, LinkedList<Integer>: BFS
 
 3. 시간 복잡도
  - BFS 1번 수행
@@ -31,19 +31,18 @@ public class Main_BFS {
 	static int leafCount;			// 출력 값: 노드 삭제 후, 남은 Leaf 노드 개수
 
 	static int rootNode;			// 루트 노드 번호
-	static Queue<List<Integer>> queue = new LinkedList<>();
-	// 노드 i 의 자식 노드들을 담은 lists[i] 를 Queue 에 추가
+	static Queue<Integer> queue = new LinkedList<>();
 
 	static void bfs() {
 		while (!queue.isEmpty()) {
-			List<Integer> list = queue.remove();	// 삭제할 노드의 자식 노드들
+			int deleteNode = queue.remove();			// 삭제할 노드
 
-			for (int node : list) {
-				if (lists[node].isEmpty())			// Leaf 노드 삭제
-					leafCount--;
-				else
-					queue.add(lists[node]);
-			}
+			List<Integer> list = lists[deleteNode];		// 삭제할 노드의 자식 노드들
+			if (list.isEmpty())			// 삭제할 노드가 Leaf 노드인 경우
+				leafCount--;
+
+			for (int child : list)
+				queue.add(child);
 		}
 	}
 
@@ -91,9 +90,7 @@ public class Main_BFS {
 		}
 
 		lists[parentNode].remove(Integer.valueOf(deleteNode));		// deleteNode 삭제
-		if (lists[deleteNode].isEmpty())		// deleteNode 본인이 원래 Leaf 노드인 경우
-			leafCount--;
-		queue.add(lists[deleteNode]);
+		queue.add(deleteNode);
 		bfs();
 
 		// 예외 처리 2) deleteNode 의 부모 노드가 Leaf 노드가 되는지 확인

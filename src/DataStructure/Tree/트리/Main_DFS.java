@@ -31,15 +31,13 @@ public class Main_DFS {
 	static int rootNode;			// 루트 노드 번호
 
 	/* node: 삭제할 노드 */
-	static void dfs(int node) {
-		List<Integer> list = lists[node];
+	static void dfs(int delteNode) {
+		List<Integer> list = lists[delteNode];
+		if (list.isEmpty())
+			leafCount--;
 
-		for (int n : list) {		// node 의 자식 노드들
-			if (lists[n].isEmpty())
-				leafCount--;
-			else
-				dfs(n);
-		}
+		for (int child : list)
+			dfs(child);
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -60,7 +58,6 @@ public class Main_DFS {
 				continue;
 			}
 			lists[parent].add(i);
-//			lists[i].add(parent);
 		}
 		deleteNode = Integer.parseInt(br.readLine());
 
@@ -88,8 +85,6 @@ public class Main_DFS {
 
 		lists[parentNode].remove(Integer.valueOf(deleteNode));		// deleteNode 삭제
 		dfs(deleteNode);
-		if (lists[deleteNode].isEmpty())	// deleteNode 본인이 원래 Leaf 노드인 경우
-			leafCount--;
 
 		// 예외 처리 2) deleteNode 의 부모 노드가 Leaf 노드가 되는지 확인
 		if (lists[parentNode].isEmpty())
