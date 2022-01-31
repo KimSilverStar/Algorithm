@@ -6,7 +6,7 @@ import java.util.*;
 1. 아이디어
  - 인접 리스트에 노드들 입력
  - 기존 트리의 Leaf 노드 개수를 구함
- - BFS 로 노드를 삭제해가면서, Leaf 노드가 삭제되면 기존 Leaf 노드 개수에서 빼줌
+ - DFS 로 노드를 삭제해가면서, Leaf 노드가 삭제되면 기존 Leaf 노드 개수에서 빼줌
  - 예외 처리
    1) 삭제 노드가 루트 노드인 경우 => 전체 삭제 후, 남은 Leaf 노드 개수는 0
    2) 삭제 후, 삭제된 노드의 부모 노드가 Leaf 노드가 되는지 여부
@@ -14,36 +14,30 @@ import java.util.*;
          - 삭제 전, 기존 Leaf 노드 1개 -> 삭제 후, 남은 Leaf 노드 1개
 
 2. 자료구조
- - List<Integer>[], ArrayList<Integer>[]: (인접) 리스트
+ - List<Integer>[], ArrayList<Integer>[]: 인접 리스트
    => i 번 노드의 자식 노드들을 lists[i] 에 저장
    e.g. 예제 입력 1) lists[0] = { 1, 2 }, lits[1] = { 3, 4 }
- - Queue<Integer>, LinkedList<Integer>: BFS
 
 3. 시간 복잡도
- - BFS 1번 수행
+ - DFS 1번 수행
    => O(V + E) = O(50 + E)
 */
 
-public class Main_BFS {
+public class Main_DFS {
 	static int n;					// 노드의 개수, 노드 번호: [0] ~ [n-1]
 	static List<Integer>[] lists;	// 인접 리스트
 	static int deleteNode;			// 지울 노드 번호
 	static int leafCount;			// 출력 값: 노드 삭제 후, 남은 Leaf 노드 개수
-
 	static int rootNode;			// 루트 노드 번호
-	static Queue<Integer> queue = new LinkedList<>();
 
-	static void bfs() {
-		while (!queue.isEmpty()) {
-			int deleteNode = queue.remove();			// 삭제할 노드
+	/* deleteNode: 삭제할 노드 */
+	static void dfs(int delteNode) {
+		List<Integer> list = lists[delteNode];		// 삭제할 노드의 자식 노드들
+		if (list.isEmpty())			// 삭제할 노드가 Leaf 노드인 경우
+			leafCount--;
 
-			List<Integer> list = lists[deleteNode];		// 삭제할 노드의 자식 노드들
-			if (list.isEmpty())			// 삭제할 노드가 Leaf 노드인 경우
-				leafCount--;
-
-			for (int child : list)
-				queue.add(child);
-		}
+		for (int child : list)
+			dfs(child);
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -90,8 +84,7 @@ public class Main_BFS {
 		}
 
 		lists[parentNode].remove(Integer.valueOf(deleteNode));		// deleteNode 삭제
-		queue.add(deleteNode);
-		bfs();
+		dfs(deleteNode);
 
 		// 예외 처리 2) deleteNode 의 부모 노드가 Leaf 노드가 되는지 확인
 		if (lists[parentNode].isEmpty())

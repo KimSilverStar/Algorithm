@@ -45,51 +45,42 @@ public class Main {
 	static List<Character>[] lists;		// 각 노드의 left, right child 저장
 	static StringBuilder sb = new StringBuilder();		// 출력 값
 
-	/* 전위 순회: Parent -> Left Child -> Right Child */
-	static void preorder(int idx) {
-		char parent = (char)('A' + idx);		// 1) Parent 방문
-		sb.append(parent);
-
-		List<Character> list = lists[idx];
+	static void preorder(char parent) {
+		List<Character> list = lists[parent - 'A'];
 		char leftChild = list.get(0);
 		char rightChild = list.get(1);
 
+		// Parent -> Left Child -> Right Child
+		sb.append(parent);
 		if (leftChild != '.')
-			preorder(leftChild - 'A');		// 2) Left Child 방문
-
+			preorder(leftChild);
 		if (rightChild != '.')
-			preorder(rightChild - 'A');		// 3) Right Child 방문
+			preorder(rightChild);
 	}
 
-	/* 중위 순회: Left Child -> Parent -> Right Child */
-	static void inorder(int idx) {
-		List<Character> list = lists[idx];
+	static void inorder(char parent) {
+		List<Character> list = lists[parent - 'A'];
 		char leftChild = list.get(0);
 		char rightChild = list.get(1);
 
+		// Left Child -> Parent -> Right Child
 		if (leftChild != '.')
-			inorder(leftChild - 'A');		// 1) Left Child 방문
-
-		char parent = (char)('A' + idx);		// 2) Parent 방문
+			inorder(leftChild);
 		sb.append(parent);
-
 		if (rightChild != '.')
-			inorder(rightChild - 'A');		// 3) Right Child 방문
+			inorder(rightChild);
 	}
 
-	/* 후위 순회: Left Child -> Right Child -> Parent */
-	static void postorder(int idx) {
-		List<Character> list = lists[idx];
+	static void postorder(char parent) {
+		List<Character> list = lists[parent - 'A'];
 		char leftChild = list.get(0);
 		char rightChild = list.get(1);
 
+		// Left Child -> Right Child -> Parent
 		if (leftChild != '.')
-			postorder(leftChild - 'A');		// 1) Left Child 방문
-
+			postorder(leftChild);
 		if (rightChild != '.')
-			postorder(rightChild - 'A');	// 2) Right Child 방문
-
-		char parent = (char)('A' + idx);		// 3) Parent 방문
+			postorder(rightChild);
 		sb.append(parent);
 	}
 
@@ -103,21 +94,25 @@ public class Main {
 		lists = new ArrayList[n];				// [0 ~ n - 1]
 		for (int i = 0; i < n; i++)
 			lists[i] = new ArrayList<>();
+
 		for (int i = 0; i < n; i++) {
 			st = new StringTokenizer(br.readLine());
 			char parent = st.nextToken().charAt(0);
-			lists[parent - 'A'].add(st.nextToken().charAt(0));		// left child
-			lists[parent - 'A'].add(st.nextToken().charAt(0));		// right child
+			char leftChild = st.nextToken().charAt(0);
+			char rightChild = st.nextToken().charAt(0);
+
+			lists[parent - 'A'].add(leftChild);
+			lists[parent - 'A'].add(rightChild);
 		}
 
 		// 루트 노드 'A' 에서 시작
-		preorder(0);
+		preorder('A');
 		sb.append("\n");
 
-		inorder(0);
+		inorder('A');
 		sb.append("\n");
 
-		postorder(0);
+		postorder('A');
 		sb.append("\n");
 
 		System.out.println(sb);

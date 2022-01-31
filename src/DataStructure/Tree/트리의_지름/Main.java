@@ -51,7 +51,7 @@ public class Main {
 				dfs(p.vertex, totalDistance + p.distance);
 		}
 
-		if (totalDistance > maxR) {
+		if (maxR < totalDistance) {
 			maxR = totalDistance;
 			vertex = vertexIdx;			// 첫 번째 DFS 로 가장 먼 두 정점 중, v1 구함
 		}
@@ -79,6 +79,7 @@ public class Main {
 				int distance = Integer.parseInt(st.nextToken());
 
 				lists[startNode].add(new Pair(destNode, distance));
+				lists[destNode].add(new Pair(startNode, distance));
 			}
 		}
 
