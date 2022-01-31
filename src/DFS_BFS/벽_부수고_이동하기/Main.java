@@ -81,7 +81,7 @@ public class Main {
 
 				if (map[ny][nx] == '1') {		// 다음 지점이 벽인 경우
 					// 현재 지점까지 벽을 부순 적 없고, 다음 지점을 아직 방문 안한 경우 => 부수고 이동
-					if (!current.destroyed && !check[ny][nx][0]) {
+					if (!current.destroyed && !check[ny][nx][1]) {
 						check[ny][nx][1] = true;
 						queue.add(new Point(ny, nx, current.distance + 1, true));
 					}
