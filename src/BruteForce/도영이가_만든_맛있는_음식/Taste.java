@@ -1,4 +1,4 @@
-package 도영이가_만든_맛있는_음식;
+package BruteForce.도영이가_만든_맛있는_음식;
 
 class Taste {
 	public int sour;		// 신 맛

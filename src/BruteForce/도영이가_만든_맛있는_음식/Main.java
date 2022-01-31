@@ -1,4 +1,4 @@
-package 도영이가_만든_맛있는_음식;
+package BruteForce.도영이가_만든_맛있는_음식;
 import java.io.*;
 import java.util.*;
 
