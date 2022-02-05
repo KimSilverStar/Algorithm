@@ -21,8 +21,8 @@ import java.util.StringTokenizer;
  case 3) 꿀 통이 벌 사이에 위치 => 무조건 벌 1이 맨 왼쪽, 벌 2가 맨 오른쪽
 
 2. 자료구조
- - long[] toRightTotal: [0 ~ 벌 2 위치] 누적합
- - long[] toLeftTotal: [끝 ~ 벌 2 위치] 누적합
+ - long[] toRightTotal: 왼쪽 -> 오른쪽으로 꿀 양 누적합
+ - long[] toLeftTotal: 오른쪽 -> 왼쪽으로 꿀 양 누적합
    => 장소 개수 n 최대 10^5, 각 장소의 꿀 양 최대 10^5
 
 3. 시간 복잡도
@@ -68,8 +68,10 @@ public class Main {
 		long bee1, bee2;
 
 		for (int i = 1; i <= n - 2; i++) {
-			bee1 = total - honeys[0] - toLeftTotal[i + 1];
-			bee2 = total - honeys[n - 1] - toRightTotal[i - 1];
+//			bee1 = total - honeys[0] - toLeftTotal[i + 1];
+//			bee2 = total - honeys[n - 1] - toRightTotal[i - 1];
+			bee1 = toRightTotal[i] - honeys[0];
+			bee2 = toLeftTotal[i] - honeys[n - 1];
 			maxCount = Math.max(maxCount, bee1 + bee2);
 		}
 	}
@@ -83,8 +85,8 @@ public class Main {
 		n = Integer.parseInt(br.readLine());
 		st = new StringTokenizer(br.readLine());
 		honeys = new int[n];
-		toRightTotal = new long[n];			// [0 ~ 벌 2 위치] 누적합
-		toLeftTotal = new long[n];			// [끝 ~ 벌 2 위치] 누적합
+		toRightTotal = new long[n];			// 왼쪽 -> 오른쪽으로 꿀 양 누적합
+		toLeftTotal = new long[n];			// 오른쪽 -> 왼쪽으로 꿀 양 누적합
 		long temp = 0;
 		for (int i = 0; i < n; i++) {
 			honeys[i] = Integer.parseInt(st.nextToken());
