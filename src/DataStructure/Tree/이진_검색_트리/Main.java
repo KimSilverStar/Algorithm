@@ -40,15 +40,17 @@ public class Main {
 		if (startIdx > endIdx)
 			return;
 
+		int parent = preorder[startIdx];
+
 		int rightChildIdx;
 		for (rightChildIdx = startIdx; rightChildIdx <= endIdx; rightChildIdx++) {
-			if (preorder[startIdx] < preorder[rightChildIdx])		// Parent < Right Child
+			if (parent < preorder[rightChildIdx])			// Parent < Right Child
 				break;
 		}
 
 		postorder(startIdx + 1, rightChildIdx - 1);			// Left Subtree
 		postorder(rightChildIdx, endIdx);					// Right Subtree
-		sb.append(preorder[startIdx]).append("\n");			// Parent 출력
+		sb.append(parent).append("\n");			// Parent 출력
 	}
 
 	public static void main(String[] args) throws IOException {
