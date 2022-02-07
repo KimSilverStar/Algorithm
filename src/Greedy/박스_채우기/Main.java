@@ -24,7 +24,10 @@ import java.util.StringTokenizer;
    ex) cubes[i]: 한 변의 길이가 2^i 인 큐브 개수
 
 3. 시간 복잡도
- - 분할 정복: 일정 영역을 큐브로 채운 후, 재귀 호출 3번 수행
+ 1) 그리디로 채울 수 있는 가장 큰 큐브 찾음
+   - 매 반복에서 O(20)
+ 2) 분할 정복
+   - 매 재귀 호출 3번
 */
 
 public class Main {
@@ -44,7 +47,7 @@ public class Main {
 		int cubeLen = 0;
 
 		// 채울 수 있는 가장 큰 큐브 찾음
-		for (int i = n - 1; i >= 0; i--) {
+		for (int i = 19; i >= 0; i--) {
 			if (cubes[i] == 0)			// 큐브 개수 == 0 (큐브가 없는 경우)
 				continue;
 
@@ -77,7 +80,7 @@ public class Main {
 		height = Integer.parseInt(st.nextToken());
 
 		n = Integer.parseInt(br.readLine());		// 큐브 종류 개수
-		cubes = new int[21];
+		cubes = new int[20];
 		for (int i = 0; i < n; i++) {
 			st = new StringTokenizer(br.readLine());
 			int idx = Integer.parseInt(st.nextToken());

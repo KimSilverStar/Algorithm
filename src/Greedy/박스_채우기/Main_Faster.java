@@ -24,7 +24,10 @@ import java.util.StringTokenizer;
    ex) cubes[i]: 한 변의 길이가 2^i 인 큐브 개수
 
 3. 시간 복잡도
- - 분할 정복: 일정 영역을 큐브로 채운 후, 재귀 호출 3번 수행
+ 1) 그리디로 채울 수 있는 가장 큰 큐브 찾음
+   - 매 반복에서 O(log n)
+ 2) 분할 정복
+   - 매 재귀 호출 3번
 */
 
 public class Main_Faster {
