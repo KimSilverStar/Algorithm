@@ -29,6 +29,8 @@
 - 백준 1991 - 트리 순회 (with. Recursive) (실버 1)
 - 백준 1068 - 트리 (with. DFS / BFS) (골드 5)
 - 백준 1167 - 트리의 지름 (with. DFS) (골드 3)
+- 백준 5639 - 이진 검색 트리 (with. Binary Search Tree, Recursive) (골드 5)
+- 백준 3584 - 가장 가까운 공통 조상 (with. DFS, DP, LCA) (골드 4)
 
 
 <br/><br/>
@@ -47,6 +49,7 @@
 - 백준 2468 - 안전 영역 (with. DFS / BFS) (실버 1)
 - 백준 14502 - 연구소 (with. Backtracking, BFS) (골드 5)
 - 백준 15686 - 치킨 배달 (with. Backtracking) (골드 5)
+- 백준 2961 - 도영이가 만든 맛있는 음식 (with. Backtracking) (실버 1)
 
 
 <br/><br/>
@@ -69,9 +72,21 @@
 <br/><br/>
 
 
+## Divide And Conquer (분할 정복)
+- 백준 17829 - 222-풀링 (실버 2)
+- 백준 2448 - 별 찍기-11 (골드 4)
+
+
+<br/><br/>
+
+
 ## Greedy
 - 백준 27588 - 동전 0 (실버 2)
 - 백준 1931 - 회의실 배정 (실버 2)
+- 백준 21758 - 꿀 따기 (실버 1)
+- 백준 1052 - 물병 (with. Simulation) (실버 1)
+- 백준 2212 - 센서 (골드 5)
+- 백준 1493 - 박스 채우기 (with. Divide And Conquer) (골드 4)
 
 
 <br/><br/>
