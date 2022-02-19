@@ -4,13 +4,16 @@ import java.util.StringTokenizer;
 
 /*
 1. 아이디어
- - 입력 행렬(행이 밑에서부터 시작) 저장
-   => map[b - row][col]
+ - Robot 클래스 정의
+   => 로봇의 위치, 방향 저장
+ - Command 클래스 정의
+   => 명령을 내릴 로봇 번호, 명령 종류, 반복 횟수 저장
  - 로봇 명령 수행
    1) 방향 전환: L, R
      - L: E -> N -> W -> S -> E ...
      - R: E -> S -> W -> N -> E ...
    2) 전진: F
+     - 로봇의 방향으로 위치(x 또는 y) 값 증가
 
 2. 자료구조
  - Robot[]: 각 로봇 번호 별 로봇의 위치, 방향 저장
@@ -23,12 +26,12 @@ import java.util.StringTokenizer;
 
 class Robot {
 	public int x, y;
-	public char direct;			// 방향
+	public char direction;			// 방향
 
-	public Robot(int x, int y, char direct) {
+	public Robot(int x, int y, char direction) {
 		this.x = x;
 		this.y = y;
-		this.direct = direct;
+		this.direction = direction;
 	}
 }
 
@@ -54,7 +57,7 @@ public class Main {
 	static StringBuilder sb = new StringBuilder();
 
 	static void solution() {
-		for (int i = 0; i < m; i++) {
+		for (int i = 1; i <= m; i++) {
 			Command current = commands[i];
 			Robot robot = robots[current.robotIdx];		// 명령 수행할 로봇
 
@@ -109,26 +112,26 @@ public class Main {
 
 	/* 로봇이 앞으로 전진하는 명령(F) 수행 */
 	static void goFront(Robot robot) {
-		if (robot.direct == 'E') robot.x++;
-		else if (robot.direct == 'S') robot.y--;
-		else if (robot.direct == 'W') robot.x--;
-		else if (robot.direct == 'N') robot.y++;
+		if (robot.direction == 'E') robot.x++;
+		else if (robot.direction == 'S') robot.y--;
+		else if (robot.direction == 'W') robot.x--;
+		else if (robot.direction == 'N') robot.y++;
 	}
 
 	/* 로봇이 왼쪽으로 방향 전환하는 명령(L) 수행 */
 	static void turnLeft(Robot robot) {
-		if (robot.direct == 'E') robot.direct = 'N';
-		else if (robot.direct == 'N') robot.direct = 'W';
-		else if (robot.direct == 'W') robot.direct = 'S';
-		else if (robot.direct == 'S') robot.direct = 'E';
+		if (robot.direction == 'E') robot.direction = 'N';
+		else if (robot.direction == 'N') robot.direction = 'W';
+		else if (robot.direction == 'W') robot.direction = 'S';
+		else if (robot.direction == 'S') robot.direction = 'E';
 	}
 
 	/* 로봇이 오른쪽으로 방향 전환하는 명령(R) 수행 */
 	static void turnRight(Robot robot) {
-		if (robot.direct == 'E') robot.direct = 'S';
-		else if (robot.direct == 'S') robot.direct = 'W';
-		else if (robot.direct == 'W') robot.direct = 'N';
-		else if (robot.direct == 'N') robot.direct = 'E';
+		if (robot.direction == 'E') robot.direction = 'S';
+		else if (robot.direction == 'S') robot.direction = 'W';
+		else if (robot.direction == 'W') robot.direction = 'N';
+		else if (robot.direction == 'N') robot.direction = 'E';
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -144,23 +147,25 @@ public class Main {
 		n = Integer.parseInt(st.nextToken());		// 로봇 개수
 		m = Integer.parseInt(st.nextToken());		// 명령 개수
 
-		robots = new Robot[n + 1];			// [1] ~ [n] 사용
+		robots = new Robot[n + 1];					// [1] ~ [n] 사용
 		for (int i = 1; i <= n; i++) {
 			// 각 로봇의 초기 위치 좌표, 방향
 			st = new StringTokenizer(br.readLine());
 			int x = Integer.parseInt(st.nextToken());
 			int y = Integer.parseInt(st.nextToken());
-			char direct = st.nextToken().charAt(0);
-			robots[i] = new Robot(x, y, direct);
+			char direction = st.nextToken().charAt(0);
+
+			robots[i] = new Robot(x, y, direction);
 		}
 
-		commands = new Command[m];
-		for (int i = 0; i < m; i++) {
+		commands = new Command[m + 1];				// [1] ~ [m] 사용
+		for (int i = 1; i <= m; i++) {
 			// 각 명령의 로봇 번호, 명령 종류, 명령 반복 횟수
 			st = new StringTokenizer(br.readLine());
 			int robotIdx = Integer.parseInt(st.nextToken());
 			char kind = st.nextToken().charAt(0);
 			int count = Integer.parseInt(st.nextToken());
+
 			commands[i] = new Command(robotIdx, kind, count);
 		}
 
