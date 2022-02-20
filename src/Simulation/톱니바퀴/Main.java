@@ -39,7 +39,7 @@ import java.util.StringTokenizer;
  - int[][] gears: 각 톱니바퀴의 톱니 상태
  - Pair[] pairs: 입력 회전 방법 순서
    => 회전 시킬 톱니바퀴 번호, 회전 방향
- - int[] rotateDirections: 각 회전 명령에 따라, 각 톱니바퀴의 회전 방향
+ - int[] directions: 각 회전 명령에 따라, 각 톱니바퀴의 회전 방향
  - boolean[] check: 각 회전 명령에 따라, 각 톱니바퀴의 회전 방향을 결정할 때
    톱니바퀴의 방문 여부 확인
 
