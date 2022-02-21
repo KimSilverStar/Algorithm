@@ -30,45 +30,40 @@ import java.util.StringTokenizer;
      : O(m x n^2)
      => m, n 최대값 대입: 10^5 x 2^20 >> 1억 (시간 초과 발생)
 
- *** 누적합을 이용하여 구간의 합을 계산하는 경우
-     : 대충 O(2 x (x2 - x1))
-    - Worst 시간 복잡도
-      : 첫 행 ~ 마지막 행 까지의 구간합 계산하는 경우
-      => O(2n)
+ *** 누적합을 이용하여 구간의 합을 계산하는 경우:
+   - 입력 영역 1개에 대해 합 계산: for 문으로 x1 행 ~ x2 행 확인
+     = 대충 O(x2 - x1)
+     => Worst 로 첫 행 ~ 마지막 행 확인
+        = O(n)
+   - 입력 영역 m개에 대해 합 계산 = Worst 로 O(n x m)
+     => n, m 최대값 대입: 2^10 x 10^5 = 102,400,000
 */
 
 public class Main_Sum {
 	static int n;					// n x n 행렬
-	static int m;		 			// 합을 구해야하는 횟수
+	static int m;		 			// 합을 구하는 횟수
 	static int[][] map;
 	static Area[] areas;			// 입력 구간 (x1, y1), (x2, y2)
 	static int[][] sum;				// 각 행마다 누적합
+	static StringBuilder sb = new StringBuilder();
 
-	static String solution() {
-		StringBuilder sb = new StringBuilder();
-
+	static void solution() {
 		for (Area area : areas) {
-			int result = 0;			// 출력
+			int result = 0;				// 출력
 
-			// 1. 행 x1 ~ x2 의 누적합
-			// = sum[x1][y2] + ... + sum[x2][y2]
-			for (int i = area.x1; i <= area.x2; i++)
+			for (int i = area.x1; i <= area.x2; i++) {
+				// 1. 행 x1 ~ x2 의 누적합
+				// = sum[x1][y2] + ... + sum[x2][y2]
 				result += sum[i][area.y2];
 
-			if (area.y1 == 1) {
-				sb.append(result).append("\n");
-				continue;
+				// 2. (행 x1 ~ x2 의 누적합) - (행 x1 ~ x2 에서 열 1 ~ y1-1 의 누적합)
+				// = (sum[x1][y2] + ... + sum[x2][y2]) - (sum[x1][y1 - 1] + ... + sum[x2][y1 - 1])
+				if (area.y1 - 1 >= 1)
+					result -= sum[i][area.y1 - 1];
 			}
-
-			// 2. (행 x1 ~ x2 의 누적합) - (행 x1 ~ x2 에서 열 1 ~ y1-1 의 누적합)
-   			// = (sum[x1][y2] + ... + sum[x2][y2]) - (sum[x1][y1 - 1] + ... + sum[x2][y1 - 1])
-			for (int i = area.x1; i <= area.x2; i++)
-				result -= sum[i][area.y1 - 1];
 
 			sb.append(result).append("\n");
 		}
-
-		return sb.toString();
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -105,6 +100,7 @@ public class Main_Sum {
 			areas[i] = new Area(x1, y1, x2, y2);
 		}
 
-		System.out.println(solution());
+		solution();
+		System.out.println(sb);
 	}
 }
