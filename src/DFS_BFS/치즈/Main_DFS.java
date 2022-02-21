@@ -14,16 +14,16 @@ import java.util.*;
  1) 외부 공기 표시 (외부, 내부 공기 구별) [DFS]
    - 입력 행렬에서 외부 공기인 [0][0] 부터 DFS 탐색 시작
      => 해당 지점이 공기이면, 외부 공기(2)로 표시
-   - 인접 지점을 아직 방문 안했고, 치즈(1)가 아닌 공기(0, 2)이면, DFS 탐색 확장
+   - 인접 지점을 아직 방문 안했고, 치즈(1)가 아닌 공기(0 또는 2)이면, DFS 탐색 확장
 
- 2) 녹일 치즈 표시 [DFS]
+ 2) 녹일 치즈 표시
    - 녹일 치즈를 리스트에 저장
    방법 ①) DFS
        - 행렬을 차례로 확인
          => 해당 지점이 치즈(1)이고 아직 방문 안한 경우, 치즈의 인접 지점 확인
    	   - 치즈의 인접 지점 중 2 군데 이상이 외부 공기(2)이면, DFS 탐색 확장
    	     => 해당 치즈의 위치를 리스트에 저장
-   방법 ②) 2중 for문
+   방법 ②) 2중 for문으로 완전 탐색
        - 행렬을 차례로 확인
          => 해당 지점이 치즈(1)인 경우, 치즈의 인접 지점 확인
        - 치즈의 인접 지점 중 2 군데 이상이 외부 공기(2)이면, 해당 치즈의 위치를 리스트에 저장
@@ -45,7 +45,7 @@ import java.util.*;
  2) 녹일 치즈 표시
    방법 ①) DFS: 대충 O(5V) = O(5 x n x m)
             => n, m 최대값 대입: 5 x 100 x 100 = 5 x 10^4
-   방법 ②) 2중 for문: O(n x m)
+   방법 ②) 2중 for문으로 완전 탐색: O(n x m)
    			=> n, m 최대값 대입: 100 x 100 = 10^4
 
  3) 표시한 녹일 치즈를 녹이기
@@ -58,7 +58,7 @@ public class Main_DFS {
 	static int time;                        // 출력: 모든 치즈가 녹는 데 걸리는 시간
 
 	static int cheeseCount;					// 남은 치즈 개수
-	static List<Point> list;				// 녹일 치즈 위치 저장
+	static List<Point> cheeseList;			// 녹일 치즈 위치 저장
 	static boolean[][] visited;
 	static int[] dy = {-1, 1, 0, 0};        // 상하좌우
 	static int[] dx = {0, 0, -1, 1};
@@ -86,7 +86,7 @@ public class Main_DFS {
 	/* 방법 ① - DFS */
 	static void checkMeltingCheese(int y, int x) {
 		visited[y][x] = true;
-		list.add(new Point(y, x));        // 녹일 치즈 저장
+		cheeseList.add(new Point(y, x));        // 녹일 치즈 저장
 
 		for (int i = 0; i < 4; i++) {
 			int ny = y + dy[i];
@@ -105,19 +105,19 @@ public class Main_DFS {
 		}
 	}
 
-	/* 방법 ② - 2중 for문으로 전체 탐색 */
+	/* 방법 ② - 2중 for문으로 완전 탐색 */
 	static void checkMeltingCheese_2() {
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
 				if (map[i][j] == 1 && isMelting(i, j))
-					list.add(new Point(i, j));
+					cheeseList.add(new Point(i, j));
 			}
 		}
 	}
 
 	/* 3) 치즈 녹이기 */
 	static void meltCheese() {
-		for (Point p : list) {		// 녹일 치즈 리스트
+		for (Point p : cheeseList) {		// 녹일 치즈 리스트
 			map[p.y][p.x] = 0;
 			cheeseCount--;
 		}
@@ -169,7 +169,7 @@ public class Main_DFS {
 			/* 2) 녹일 치즈 표시 - 리스트에 저장 */
 			// 방법 ①) DFS
 			visited = new boolean[n][m];
-			list = new ArrayList<>();
+			cheeseList = new ArrayList<>();
 
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < m; j++) {
@@ -182,7 +182,7 @@ public class Main_DFS {
 				}
 			}
 
-			// 방법 ②) 2중 for문
+			// 방법 ②) 2중 for문으로 완전 탐색
 //			list = new ArrayList<>();
 //			checkMeltingCheese_2();
 
