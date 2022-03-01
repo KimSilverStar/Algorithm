@@ -5,8 +5,15 @@ import java.util.StringTokenizer;
 /*
 1. 아이디어
  *** 투 포인터
- 1) 최초 k 개 정수들의 합을 구함
- 2) for 문으로 맨 앞 index(ptr1) 의 값을 빼고, 마지막 다음 index(ptr2) 의 값을 더함
+ - 최초 앞에서부터 k 개의 합을 구함
+ - 2개의 포인터 ptr1, ptr2 가 각각 [0], [k] 에서 시작
+ - 다음을 ptr2 가 [n-1]을 가리킬 때까지 반복
+ 1) 합에서 ptr1 이 가리키는 값을 빼고, ptr1++
+ 2) 합에서 ptr2 가 가리키는 값을 더하고, ptr2++
+
+// 1) 최초 k 개 정수들의 합을 구함
+// 2) for 문으로 맨 앞 index(ptr1) 의 값을 빼고, 마지막 다음 index(ptr2) 의 값을 더함
+
 
  *** 단순하게 for 문으로 각 숫자의 위치에서, 이후 k 개의 수를 더하는 알고리즘
     - O(n x k)
@@ -34,18 +41,18 @@ public class Main {
 
 		maxSum = temp;
 
-		for (int i = k; i < n; i++) {
-			temp -= temperatures[i - k];
-			temp += temperatures[i];
+		int ptr1 = 0;			// 합에서 뺄 위치
+		int ptr2 = k;			// 합에서 더할 위치
+
+		while (ptr2 <= n - 1) {
+			temp -= temperatures[ptr1++];
+			temp += temperatures[ptr2++];
 			maxSum = Math.max(maxSum, temp);
 		}
 
-//		int ptr1 = 0;			// 합에서 뺄 위치
-//		int ptr2 = k;			// 합에서 더할 위치
-//
-//		while (ptr2 <= n - 1) {
-//			temp -= temperatures[ptr1++];
-//			temp += temperatures[ptr2++];
+//		for (int i = k; i < n; i++) {
+//			temp -= temperatures[i - k];
+//			temp += temperatures[i];
 //			maxSum = Math.max(maxSum, temp);
 //		}
 	}
