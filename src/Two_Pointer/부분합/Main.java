@@ -8,10 +8,12 @@ import java.util.StringTokenizer;
  - "연속된 수들의 부분합 ~"
    => 연속하다는 특징 이용가능하므로, 투 포인터 사용
 
- - 2개의 포인터 ptr1, ptr2가 모두 [0]에서 시작
- - 다음의 과정을 ptr2 가 마지막 원소를 가리킬 때까지 반복
- 1) 원소 합 >= s 가 될 때까지, ptr2 를 오른쪽으로 이동 (ptr2++)
- 2) 원소 합 < s 가 될 때까지, ptr1 을 오른쪽으로 이동 (ptr1++)
+ - 2개의 포인터 ptr1, ptr2 모두 [0]에서 시작
+ - ptr2 가 마지막 원소를 넘어갈 때까지 다음을 반복
+ 1) 원소 합 < s 인 경우
+   - 원소 합 >= s 가 될 때까지, ptr2 를 오른쪽으로 이동 (ptr2++)
+ 2) 원소 합 >= s 인 경우
+   - 원소 합 < s 가 될 때까지, ptr1 을 오른쪽으로 이동 (ptr1++)
 
 
 * 오답 처리된 풀이
@@ -43,17 +45,16 @@ public class Main {
 		int ptr2 = 0;
 
 		while (true) {
-//			2) 원소 합 < s 가 될 때까지, ptr1 을 오른쪽으로 이동 (ptr1++, ptr2 고정)
 			if (sum >= s) {
+				// 원소 합 < s 가 될 때까지, ptr1 을 오른쪽으로 이동 (ptr1++)
 				sum -= numbers[ptr1];
 				minLen = Math.min(minLen, ptr2 - ptr1);
 				ptr1++;
 			}
-			// 밑의 else 문에서 ptr2++ 하기 전, ptr2 의 index 조건 확인
 			else if (ptr2 == n)
 				break;
-//			1) 원소 합 >= s 가 될 때까지, ptr2 를 오른쪽으로 이동 (ptr2++)
-			else		// sum < s && "ptr2 != n"
+			else		// sum < s && ptr2 != n
+				// 원소 합 >= s 가 될 때까지, ptr2 를 오른쪽으로 이동 (ptr2++)
 				sum += numbers[ptr2++];
 
 			/* 조건문 순서를 다음과 같이하면 오류 발생
