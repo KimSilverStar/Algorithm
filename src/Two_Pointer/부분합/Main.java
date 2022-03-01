@@ -29,7 +29,7 @@ import java.util.StringTokenizer;
    => 10^8 (1억) << 21억 이므로, int 가능
 
 3. 시간 복잡도
- - 대략 반복문 1회 반복: O(n)
+ - 대략 반복문을 수열 길이만큼 반복: O(n)
 */
 
 public class Main {
