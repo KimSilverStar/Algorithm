@@ -20,20 +20,22 @@ import java.util.StringTokenizer;
 
  - 2개의 포인터 ptr1, ptr2가 [0]에서 시작
  - 다음을 ptr2가 마지막 원소를 가리킬 때까지 반복
-   1) ptr2 를 오른쪽으로 한 칸씩 이동(ptr2++)하면서, 원소 등장 횟수 카운트
-   2) k번 초과 등장하는 동일 원소가 존재하는 경우
-     - 해당 k번 초과 등장한 동일 원소의 등장 횟수가 k번 이하가 될 때까지,
+   1) ptr2 가 가리키는 원소의 등장 횟수 < k 인 경우
+     - 현재 ptr2 가 가리키는 원소의 등장 횟수 + 1
+     - ptr2 를 오른쪽으로 한 칸 이동 (ptr2++)
+   2) ptr2 가 가리키는 원소의 등장 횟수 >= k 인 경우
+     - ptr2 가 가리키는 원소의 등장 횟수 < k 가 될 때까지,
        ptr1 을 오른쪽으로 한 칸씩 이동 (ptr1++)
 
 2. 자료구조
- - int[] count: 공통 원소 표시
+ - int[] count: 원소 등장 횟수 카운트
    ex) count[10] = 2 이면, 원소 10 이 2번 등장
    => [1] ~ [100,000] 사용
    => 메모리: 4 x 10^5 byte = 0.4 MB
 
 3. 시간 복잡도
  - 대략 O(n)
-   => n 최댁밧 대입: 2 x 10^5 << 1억
+   => n 최대값 대입: 2 x 10^5 << 1억
 */
 
 public class Main {
@@ -48,8 +50,10 @@ public class Main {
 
 		// ptr2 가 마지막 원소를 가리킬 때까지 반복
 		while (ptr2 < n) {
-			if (count[ numbers[ptr2] ] < k) {
-				count[ numbers[ptr2] ]++;
+			int numPtr2 = numbers[ptr2];		// ptr2 가 가리키는 수열의 원소
+
+			if (count[numPtr2] < k) {
+				count[numPtr2]++;
 				ptr2++;
 			}
 			else {		// 동일 원소가 k번 초과하여 등장
@@ -59,6 +63,7 @@ public class Main {
 
 			maxLen = Math.max(maxLen, ptr2 - ptr1);
 		}
+
 //		int num;			// ptr2 가 가리키는 원소 값
 
 //		// ptr2 가 마지막 원소를 가리킬 때까지 반복
