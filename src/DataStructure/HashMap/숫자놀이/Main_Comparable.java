@@ -44,29 +44,29 @@ public class Main_Comparable {
 	static Word[] words;
 
 	static void solution() {
-		// 정수 값과 정수를 영어로 읽은 문자열을 Word[] 에 저장
-		int idx = 0;
+		// 1) 정수 값과 정수를 영어로 읽은 문자열을 Word[] 에 저장
 		for (int i = m; i <= n; i++) {
 			String strNumber = String.valueOf(i);			// "80" 형태 문자열
 			StringBuilder strByDigit = new StringBuilder();
 			// 한 숫자(문자)씩 읽은 결과 문자열 ("eight zero" 형태)
 
 			for (int j = 0; j < strNumber.length(); j++) {
-				int num = Character.getNumericValue(strNumber.charAt(j));
-				strByDigit.append(numberStrArr[num])
+				int digit = Character.getNumericValue(strNumber.charAt(j));
+				strByDigit.append(numberStrArr[digit])
 						.append(" ");
 			}
 
-			words[idx++] = new Word(i, strByDigit.toString());
+			words[i - m] = new Word(i, strByDigit.toString());
 		}
 
-		Arrays.sort(words);			// 사전 순으로 정렬
+		// 2) Word[]를 사전 순으로 정렬
+		Arrays.sort(words);
 
-		// 정렬된 Word[] 에서 정수 값을 꺼내어 출력
+		// 3) 정렬된 Word[] 에서 정수 값을 꺼내어 출력
 		int count = 1;
 		for (Word w : words) {
-			int num = w.number;
-			sb.append(num).append(" ");
+			int number = w.number;
+			sb.append(number).append(" ");
 
 			if (count % 10 == 0)
 				sb.append("\n");
