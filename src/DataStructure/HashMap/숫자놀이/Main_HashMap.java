@@ -34,15 +34,15 @@ public class Main_HashMap {
 	static Map<String, Integer> map = new HashMap<>();
 
 	static void solution() {
-		// 정수를 영어로 읽은 문자열을 List 와 HashMap 에 저장
+		// 1) 정수를 영어로 읽은 문자열을 List 와 HashMap 에 저장
 		for (int i = m; i <= n; i++) {
 			 String strNumber = String.valueOf(i);			// "80" 형태 문자열
 			 StringBuilder strByDigit = new StringBuilder();
 			 // 한 숫자(문자)씩 읽은 결과 문자열 ("eight zero" 형태)
 
 			 for (int j = 0; j < strNumber.length(); j++) {
-				 int num = Character.getNumericValue(strNumber.charAt(j));
-				 strByDigit.append(numberStrArr[num])
+				 int digit = Character.getNumericValue(strNumber.charAt(j));
+				 strByDigit.append(numberStrArr[digit])
 						 .append(" ");
 			 }
 
@@ -50,9 +50,10 @@ public class Main_HashMap {
 			 map.put(strByDigit.toString(), i);
 		}
 
-		Collections.sort(list);			// 사전 순으로 정렬
+		// 2) List 를 사전 순으로 정렬
+		Collections.sort(list);
 
-		// 정렬된 List 의 문자열들을 HashMap 에 맵핑하여, 정수를 꺼내어 출력
+		// 3) 정렬된 List 의 문자열들을 HashMap 에 맵핑하여, 정수를 꺼내어 출력
 		int count = 1;
 		for (String s : list) {
 			int num = map.get(s);
