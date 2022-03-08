@@ -44,16 +44,16 @@ while (!pq.isEmpty()) {
     if (dist[current.v] < current.w)    // 최단거리가 아닌 경우, 이미 갱신된 경우는 제외
         continue;
 
-    for (Node n : lists[current.v]) {
+    for (Node next : lists[current.v]) {
         // current.v 노드와 연결된 다음 (노드 nv, 거리 nw)
         int nv = n.v;
         int nw = n.w;
 
-        // dist[nv]: 시작 노드 -> 도착 노드 nv 현재까지 최단거리 (갱신 O or X 가능)
-        // dist[current.v] + nw: 시작 노드 -> 노드 v -> 노드 nv 거리
-        if (dist[nv] > dist[current.v] + nw) {      // 노드 v 를 경유해서 노드 nv 를 갈 때, 거리가 더 짧은 경우
-            dist[nv] = dist[current.v] + nw;        // 노드 nv 의 최단거리 갱신
-            pq.add(new Node(nv, dist[nv]));
+        // dist[next.v]: 시작 노드 -> 도착 노드 next 현재까지 최단거리 (갱신 O or X 가능)
+        // dist[current.v] + next.w: 시작 노드 -> 노드 v -> 노드 next 거리
+        if (dist[next.v] > dist[current.v] + next.w) {  // 노드 v 를 경유해서 노드 next 를 갈 때, 거리가 더 짧은 경우
+            dist[next.v] = dist[current.v] + next.w;    // 노드 next 의 최단거리 갱신
+            pq.add(new Node(next.v, dist[next.v]));
         }
     }
 }
