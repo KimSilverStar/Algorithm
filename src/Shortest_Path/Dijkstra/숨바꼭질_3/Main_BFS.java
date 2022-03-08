@@ -61,13 +61,6 @@ public class Main_BFS {
 		while (!queue.isEmpty()) {
 			State current = queue.remove();
 
-			// pq
-			//
-//			if (current.position == k) {
-//				minTime = current.time;
-//				return;
-//			}
-
 			int np1 = current.position - 1;
 			// 현재까지 갱신된 최적 경로로 다음 지점 도달 최소 시간 visited[np1]
 			// > 현재 경로로 다음 지점 도달 시간 current.time + 1
