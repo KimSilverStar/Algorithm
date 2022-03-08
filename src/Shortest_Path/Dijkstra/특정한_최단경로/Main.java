@@ -6,11 +6,11 @@ import java.util.*;
 1. 아이디어
  - 1번 노드 -> v1, v2 노드 -> n번 노드로 가는 최단 경로
 
- 1) 1번 노드 -> v1 노드 -> v2 노드 -> n번 노드
+ case 1) 1번 노드 -> v1 노드 -> v2 노드 -> n번 노드
    - 1번 노드 -> v1 노드 최단경로 다익스트라
    - v1 노드 -> v2 노드 최단경로 다익스트라
    - v2 노드 -> n번 노드 최단경로 다익스트라
- 2) 1번 노드 -> v2 노드 -> v1 노드 -> n번 노드
+ case 2) 1번 노드 -> v2 노드 -> v1 노드 -> n번 노드
    - 1번 노드 -> v2 노드 최단경로 다익스트라
    - v2 노드 -> v1 노드 최단경로 다익스트라
    - v1 노드 -> n번 노드 최단경로 다익스트라
@@ -69,7 +69,7 @@ public class Main {
 		// 1번 노드 -> v2 노드 -> v1 노드 -> n번 노드
 		int case2 = dijkstra(1, v2) + dijkstra(v2, v1) + dijkstra(v1, n);
 
-		if (case1 >= INF || case2 >= INF)		// 해당 경로로 갈 수 없는 경우
+		if (case1 >= INF && case2 >= INF)		// 해당 경로로 갈 수 없는 경우
 			minCount = -1;
 		else
 			minCount = Math.min(case1, case2);
