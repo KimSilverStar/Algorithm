@@ -1,0 +1,70 @@
+* 플로이드-와샬 vs 다익스트라
+ 1) 플로이드-와샬
+   - 모든 노드 -> 다른 모든 노드까지 가는 데 최소 비용
+   - 음의 가중치 가능
+   - 시간 복잡도: O(V^3)
+
+ 2) 다익스트라
+   - 한 노드 -> 다른 모든 노드까지 가는데 최소 비용
+   - 음의 가중치 불가능
+   - 시간 복잡도: O(E log_2 V)
+
+ 3) 시간 복잡도 비교
+   - 다익스트라를 V번 수행하면, 플로이드-와샬과 마찬가지로
+     모든 노드 -> 다른 모든 노드까지 가는 최소 비용 도출 가능.
+     But, 시간이 더 걸림
+   - O(V x E x log_2 V)
+     e.g. E = V^2 이면, O(V x E x log_2 V) = O(V^3 x log_2 V) > 플로이드-와샬 O(V^3)
+
+
+* 플로이드-와샬
+ 1) 비용 배열 dist[][] 초기화
+   - 노드 본인 -> 노드 본인은 0 으로 초기화
+     => dist[i][i] = 0
+   - 나머지는 INF 로 초기화
+     => INF 값 = (노드 V 최대 개수) x (각 간선의 가중치 최대값)
+ 2) 비용 배열 dist[][] 에 간선의 가중치 저장
+   - startV -> destV 노드로 가는 간선이 여러 개 존재할 경우, 가장 작은 가중치로 저장
+     => dist[startV][destV] = Math.min(dist[startV][destV], distance);
+ 3) 모든 노드에 대해 해당 노드를 거쳐서 갈 때, 비용이 더 작으면 갱신
+   - 1번 -> 4번 노드의 최소 비용 값 dist[1][4] 를 구하는 경우,
+     나머지 모든 노드를 각각 거쳐가는 케이스들을 확인
+     => 1번 -> 2번 -> 4번,  1번 -> 3번 -> 4번,  ...,  1번 -> k번 -> 4번
+   - for (중간 경유 노드)     // V번 반복
+        for (시작 노드)       // V번 반복
+            for (끝 노드)     // V번 반복
+     => 시간 복잡도: O(V^3)
+
+
+* 핵심 코드
+// 1) 비용 배열 dist[][] 초기화
+for (int i = 1; i <= n; i++) {
+    for (int j = 1; j <= n; j++) {
+        if (i == j)
+            dist[i][j] = 0;
+        else
+            dist[i][j] = INF;
+    }
+}
+
+// 2) 비용 배열 dist[][] 에 간선의 가중치 저장
+for (int i = 0; i <= numOfEdge; i++) {
+    st = new StringTokenizer(br.readLine());
+    int startV = Integer.parseInt(st.nextToken);        // 시작 노드
+    int destV = Integer.parseInt(st.nextToken);         // 목적지 노드
+    int distance = Integer.parseInt(st.nextToken);      // 거리 (가중치)
+
+    // startV -> destV 노드로 가는 간선이 여러 개 존재할 경우, 가장 작은 가중치로 저장
+    dist[startV][destV] = Math.min(dist[startV][destV], distance);
+}
+
+// 3) 모든 노드에 대해 해당 노드를 거쳐서 갈 때, 비용이 더 작으면 갱신
+for (int k = 1; k <= n; k++) {              // 경유 노드
+    for (int i = 1; i <= n; i++) {          // 시작 노드
+        for (int j = 1; j <= n; j++) {      // 끝 노드
+            // (시작 -> 끝) > (시작 -> 경유 -> 끝)  인 경우, 최소 비용 갱신
+            if (dist[i][j] > dist[i][k] + dist[k][j])
+                dist[i][j] = dist[i][k] + dist[k][j];
+        }
+    }
+}
