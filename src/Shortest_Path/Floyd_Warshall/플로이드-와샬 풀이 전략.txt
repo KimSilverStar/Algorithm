@@ -22,7 +22,9 @@
    - 노드 본인 -> 노드 본인은 0 으로 초기화
      => dist[i][i] = 0
    - 나머지는 INF 로 초기화
-     => INF 값 = (노드 V 최대 개수) x (각 간선의 가중치 최대값)
+     => INF 값 = (노드 V 최대 개수) x (각 간선의 가중치 최대값) or
+                 (간선 E 최대 개수) x (각 간선의 가중치 최대값)
+
  2) 비용 배열 dist[][] 에 간선의 가중치 저장
    - startV -> destV 노드로 가는 간선이 여러 개 존재할 경우, 가장 작은 가중치로 저장
      => dist[startV][destV] = Math.min(dist[startV][destV], distance);
