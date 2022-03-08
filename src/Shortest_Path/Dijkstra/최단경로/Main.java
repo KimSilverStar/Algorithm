@@ -4,11 +4,11 @@ import java.util.*;
 
 /*
 1. 아이디어
- - 시작 정점 -> 다른 모든 정점으로의 최단거리,
-   음이 아닌 간선의 가중치 (10 이하의 자연수)
+ - 한 노드 -> 다른 모든 노드로의 최단거리,
+   음이 아닌 간선의 가중치
    => 다익스트라
 
-   1) 거리 배열, 우선순위 큐 초기화
+   1) 비용 배열, 우선순위 큐 초기화
      - dist[]: 시작 노드 거리 0, 나머지 노드 무한대
      - pq: (시작 노드, 0) 추가
    2) pq 가 empty 할 때까지 다음을 반복
@@ -21,14 +21,14 @@ import java.util.*;
 
 
 2. 자료구조
- - int[] dist: 최단거리 갱신해나갈 배열
-   => 정점 개수 V x 최대값 w
+ - int[] dist: 비용 배열
+   => 정점 개수 V x 간선 가중치 최대값 w
    => (2 x 10^4) x 10 = 2x 10^5 << 21억 이므로, int 가능
- - ArrayList<Piar>[] lists: 인접 리스트 (간선 저장)
-   => Pair: (연결 노드, 거리)
- - PriorityQueue<Pair> pq
+ - ArrayList<Node>[] lists: 인접 리스트 (간선 저장)
+   => Node: (연결 노드, 거리)
+ - PriorityQueue<Node> pq
    : 아직 방문 안한 노드 중에서, 거리 dist[v] 값이 가장 작은 노드를 선택
-   => Pair 에서 거리 w 값이 작은 순으로 정렬
+   => Node 에서 거리 w 값이 작은 순으로 정렬
 
 
 3. 시간 복잡도
@@ -38,48 +38,47 @@ import java.util.*;
       ~= (6 x 10^5) x 13 = 78 x 10^5 << 1억
 */
 
-class Pair implements Comparable<Pair> {
+class Node implements Comparable<Node> {
 	public int v;			// 연결된 노드
 	public int w;			// 거리 (가중치)
 
-	public Pair(int v, int w) {
+	public Node(int v, int w) {
 		this.v = v;
 		this.w = w;
 	}
 
-	public int compareTo(Pair p) {
-		return this.w - p.w;		// PQ 에서 거리(가중치) w 작은 순으로 정렬
+	public int compareTo(Node n) {
+		return this.w - n.w;		// PQ 에서 거리(가중치) w 작은 순으로 정렬
 	}
 }
 
 public class Main {
 	static int numOfVertex, numOfEdge;		// 정점 개수, 간선 개수
 	static int startV;						// 시작 정점
+	static List<Node>[] lists;				// 간선 인접 리스트
 
+	static final int INF = 200_000;			// 최대 노드 개수 x 가중치 최대값
 	static int[] dist;						// 최단거리 갱신 배열
-	static List<Pair>[] lists;				// 간선 인접 리스트
-	static PriorityQueue<Pair> pq = new PriorityQueue<>();
+	static PriorityQueue<Node> pq = new PriorityQueue<>();
 
-	static void solution() {
+	static void dijkstra() {
 		// 거리 배열, 우선순위 큐 초기화 - 시작 노드
-		Arrays.fill(dist, Integer.MAX_VALUE);
+		Arrays.fill(dist, INF);
 		dist[startV] = 0;
-
-		pq.add(new Pair(startV, 0));
+		pq.add(new Node(startV, 0));
 
 		while (!pq.isEmpty()) {
-			Pair current = pq.remove();
+			Node current = pq.remove();
 
 			if (dist[current.v] < current.w)	// 이미 방문, 갱신된 최단거리 dist[] 는 제외
 				continue;
 
-			for (Pair p : lists[current.v]) {	// 노드 v 와 연결된 다음 노드 nv 확인
-				int nv = p.v;
-				int nw = p.w;
-
-				if (dist[nv] > dist[current.v] + nw) {	// 노드 v 를 경유하는 것이 더 빠른 경우
-					dist[nv] = dist[current.v] + nw;
-					pq.add(new Pair(nv, dist[nv]));
+			// 노드 v 와 연결된 다음 노드 next 확인
+			for (Node next : lists[current.v]) {
+				// 노드 v 를 경유하는 것이 더 빠른 경우 => 갱신, 우선순위 큐에 추가
+				if (dist[next.v] > dist[current.v] + next.w) {
+					dist[next.v] = dist[current.v] + next.w;
+					pq.add(new Node(next.v, dist[next.v]));
 				}
 			}
 		}
@@ -106,14 +105,14 @@ public class Main {
 			int v = Integer.parseInt(st.nextToken());		// 도착 노드
 			int w = Integer.parseInt(st.nextToken());		// 거리
 
-			lists[u].add(new Pair(v, w));
+			lists[u].add(new Node(v, w));
 		}
 
-		solution();
+		dijkstra();
 
 		StringBuilder sb = new StringBuilder();
 		for (int i = 1; i <= numOfVertex; i++) {
-			if (dist[i] != Integer.MAX_VALUE)
+			if (dist[i] != INF)
 				sb.append(dist[i]).append("\n");
 			else
 				sb.append("INF").append("\n");
