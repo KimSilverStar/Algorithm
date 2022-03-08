@@ -11,14 +11,16 @@
 * 자료구조
 1) 최단거리 배열: int[] dist
   - 시작 노드 -> 모든 노드까지의 각 최단거리
-  - 초기값: 시작 노드의 거리는 0, 나머지는 무한대(INF)로 초기화
+  - 초기값: 시작 노드의 거리는 0, 나머지는 INF(무한대)로 초기화
+    => Arrays.fill(dist, INF);  dist[startV] = 0;
+    => INF 값 = (간선 E 최대 개수) x (각 간선의 가중치 최대값)
 
-2) 인접 리스트: ArrayList<Piar>[] lists
-  - 간선 Pair (연결된 다음 노드 v, 거리 w) 저장
+2) 인접 리스트: ArrayList<Node>[] lists
+  - 간선 Node (연결된 다음 노드 v, 거리 w) 저장
     => lists[1]: 1번 노드와 연결된 각 노드들 번호와 거리
 
-3) 힙: PriorityQueue<Pair> pq
-  - Pair 로 (도착 노드 v, 시작 -> 도착 노드의 거리 w) 저장
+3) 힙: PriorityQueue<Node> pq
+  - Node 로 (도착 노드 v, 시작 -> 도착 노드의 거리 w) 저장
   - 초기: 시작 지점 추가
     => (시작 노드, 0)
   - 아직 방문 안한 노드 중에서,
@@ -32,25 +34,25 @@
 
 * 핵심 코드
 dist[k] = 0;                            // 시작 노드: k
-pq.add(new Pair(k, 0));
+pq.add(new Node(k, 0));
 
 while (!pq.isEmpty()) {
     // 시작 노드에서부터 가장 가까운 노드
-    Pair current = pq.remove();         // Pair: 도착 노드 v, 시작 -> 도착 노드 거리 w
+    Node current = pq.remove();         // Node: 도착 노드 v, 시작 -> 도착 노드 거리 w
 
     if (dist[current.v] < current.w)    // 최단거리가 아닌 경우, 이미 갱신된 경우는 제외
         continue;
 
-    for (Pair p : lists[current.v]) {
+    for (Node n : lists[current.v]) {
         // current.v 노드와 연결된 다음 (노드 nv, 거리 nw)
-        int nv = p.v;
-        int nw = p.w;
+        int nv = n.v;
+        int nw = n.w;
 
         // dist[nv]: 시작 노드 -> 도착 노드 nv 현재까지 최단거리 (갱신 O or X 가능)
         // dist[current.v] + nw: 시작 노드 -> 노드 v -> 노드 nv 거리
         if (dist[nv] > dist[current.v] + nw) {      // 노드 v 를 경유해서 노드 nv 를 갈 때, 거리가 더 짧은 경우
             dist[nv] = dist[current.v] + nw;        // 노드 nv 의 최단거리 갱신
-            pq.add(nv, dist[nv]);
+            pq.add(new Node(nv, dist[nv]));
         }
     }
 }
