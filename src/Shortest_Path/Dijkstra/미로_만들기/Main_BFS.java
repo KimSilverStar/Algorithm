@@ -8,20 +8,18 @@ import java.util.*;
    => BFS
  - 단, 탐색 시 방을 바꾼 개수를 탐색 상태에 포함하여 고려
    => 방을 바꾼 개수 count 를 작은 순으로 먼저 탐색해야 함
-   => Queue 대신 PriorityQueue 사용
 
- PriorityQueue 가 empty 할 때까지 다음을 반복
- - 다음 지점이 범위 안이고, 다음 지점을 최소 count 로 아직 방문 안한 경우
-   => 다음 지점을 pq 에 추가
+ Queue 가 empty 할 때까지 다음을 반복
+ - 현재 지점까지 방을 바꾼 개수 < 다음 지점까지 방을 바꾼 개수
+   => queue 에 다음 지점을 추가
 
 
 2. 자료구조
- - boolean[][][] visited: 방문 확인
-   ex) visited[y][x][k]: (y, x) 지점까지 k개 방을 바꾸었을 때의 방문 여부
-   => 메모리: 최대 n x n x n^2 byte = n^4 byte
-   => n 최대값 대입: 125 x 10^3 byte = 125 KB
- - PriorityQueue<State>: count 작은 순으로 BFS 먼저 탐색
-   => State: 지점 (y, x), 이때까지 방을 바꾼 개수 count
+ - int[][] visited: 방문 확인
+   ex) visited[y][x]: (y, x) 지점까지 방을 몇 개 바꿔서 방문했는지
+   => 메모리: 4 x n x n byte = 4 x n^2 byte
+   => n 최대값 대입: 4 x 25 x 10^2 byte = 10^4 byte = 10 KB
+ - Queue<Point>: BFS
 
 
 3. 시간 복잡도
@@ -31,19 +29,12 @@ import java.util.*;
    => n 최대값 대입: 5 x 25 x 10^2 = 125 x 10^2 << 1억
 */
 
-class State implements Comparable<State> {
-	public int y, x;		// 위치
-	public int count;		// 바꾼 방 개수
+class Point {
+	public int y, x;
 
-	public State(int y, int x, int count) {
+	public Point(int y, int x) {
 		this.y = y;
 		this.x = x;
-		this.count = count;
-	}
-
-	// count 작은 순으로 BFS 탐색하기 위함
-	public int compareTo(State s) {
-		return this.count - s.count;
 	}
 }
 
@@ -52,22 +43,17 @@ public class Main_BFS {
 	static int[][] map;
 	static int minCount;			// 출력, 바꾸어야 할 검은 방 최소 개수
 
-	static PriorityQueue<State> pq = new PriorityQueue<>();
-	static boolean[][][] visited;
+	static Queue<Point> queue = new LinkedList<>();
+	static int[][] visited;
 	static int[] dy = { -1, 1, 0, 0 };
 	static int[] dx = { 0, 0, -1, 1 };
 
 	static void bfs() {
-		visited[0][0][0] = true;
-		pq.add(new State(0, 0, 0));
+		visited[0][0] = 0;
+		queue.add(new Point(0, 0));
 
-		while (!pq.isEmpty()) {
-			State current = pq.remove();
-
-			if (current.y == n - 1 && current.x == n - 1) {
-				minCount = current.count;
-				return;
-			}
+		while (!queue.isEmpty()) {
+			Point current = queue.remove();
 
 			for (int i = 0; i < 4; i++) {
 				int ny = current.y + dy[i];
@@ -76,14 +62,22 @@ public class Main_BFS {
 				if (ny < 0 || ny >= n || nx < 0 || nx >= n)
 					continue;
 
-				int nCount = (map[ny][nx] == 0) ?
-						current.count + 1 : current.count;
-				if (!visited[ny][nx][nCount]) {
-					visited[ny][nx][nCount] = true;
-					pq.add(new State(ny, nx, nCount));
+				// 그 다음 지점이 방을 바꾼 개수가 더 적거나 같은 경우는 탐색 제외
+				if (visited[ny][nx] <= visited[current.y][current.x])
+					continue;
+
+				if (map[ny][nx] == 1) {		// 흰 방
+					visited[ny][nx] = visited[current.y][current.x];
+					queue.add(new Point(ny, nx));
+				}
+				else {						// 검은 방
+					visited[ny][nx] = visited[current.y][current.x] + 1;
+					queue.add(new Point(ny, nx));
 				}
 			}
 		}
+
+		minCount = visited[n - 1][n - 1];
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -93,11 +87,13 @@ public class Main_BFS {
 
 		n = Integer.parseInt(br.readLine());
 		map = new int[n][n];
-		visited = new boolean[n][n][n * n + 1];		// [][][0] ~ 최대 [][][n^2] 사용
+		visited = new int[n][n];
 		for (int i = 0; i < n; i++) {
 			String input = br.readLine();
-			for (int j = 0; j < n; j++)
+			for (int j = 0; j < n; j++) {
 				map[i][j] = Character.getNumericValue(input.charAt(j));
+				visited[i][j] = Integer.MAX_VALUE;		// 최대값으로 초기화
+			}
 		}
 
 		bfs();

@@ -11,21 +11,24 @@ import java.util.*;
    => 다익스트라
 
  1) 비용 배열, 우선순위 큐 초기화
-   - count[0][0] = 0, 나머지 지점은 무한대로 초기화
+   - count[0][0] = 0, 나머지 지점은 INF 로 초기화
    - pq.add(시작 지점, 0개)
  2) 우선순위 큐가 empty 할 때까지, 다음을 반복
    - 비용 w (바꾸는 방 개수) 작은 순으로 우선순위 큐에서 꺼냄
      => 해당 지점 [y][x] 의 비용이 이미 갱신된 경우는 제외
-   - 현재 지점 [y][x] 를 경유 O / 경유 X 해서 [ny][nx] 로 가는 비용을 비교 및 갱신
-     => [y][x] 를 경유해서 [ny][nx] 로 가는 비용
-        : [y][x] 의 최소 비용 count[y][x] + 0 or 1 (검은 방 여부)
-     => [y][x] 를 경유하지 않고 [ny][nx] 로 가는 비용: count[ny][nx]
+   - 상하좌우 다음 위치에 대해,
+     현재 지점 [y][x]를 거쳐서 갈때 비용이 더 작은 경우
+      => 비용 갱신, 우선순위 큐에 추가
+      => 다음 위치를 가는 비용 = 현재 비용 + 0 or 1 (다음 위치 검은 방 여부)
 
 
 2. 자료구조
- - int[][] count: 다익스트라로 갱신해나갈 최소 비용 배열
+ - int[][] count: 비용 배열
    => count[i][j]: 시작 지점 [0][0] -> [i][j] 로 갈 때, 바꾸는 방 최소 개수
+   => 비용 최대값 INF
+      = 노드 최대 개수 50^2 x 가중치 최대값 1 = 2500 << 21억 이므로, int 가능
  - PriorityQueue<Node>: [0][0] -> [y][x] 로 갈 때, 바꾸는 방 최소 개수 w
+   => Node: 연결된 노드 위치 (y, x), 비용 w
 
 
 3. 시간 복잡도
@@ -58,39 +61,37 @@ public class Main_Dijkstra {
 	static int[] dy = { -1, 1, 0, 0 };
 	static int[] dx = { 0, 0, -1, 1 };
 
-	static int[][] count;			// 다익스트라 - 갱신해나갈 최소 비용
+	static final int INF = 2500;	// 노드 최대 개수 50^2 x 간선 가중치 최대값 1
+	static int[][] count;			// 비용 배열
 	static PriorityQueue<Node> pq = new PriorityQueue<>();
 
-	static void solution() {
+	static void dijkstra() {
 		// count[][], pq 초기화 - 시작 지점
 		count[0][0] = 0;
 		pq.add(new Node(0, 0, 0));
 
 		while (!pq.isEmpty()) {
 			Node current = pq.remove();		// 바꾸는 방 개수 w 작은 순
-			int y = current.y;
-			int x = current.x;
-			int w = current.w;
 
-			if (count[y][x] < w)			// 이미 갱신된 count[][] 는 제외
+			if (count[current.y][current.x] < current.w)	// 이미 갱신된 count[][] 는 제외
 				continue;
 
-			// 현재 지점 [y][x] 과 연결된 인접 지점 [ny][nx] 의 비용 확인
+			// 현재 지점과 연결된 인접 지점 [ny][nx] 의 비용 확인
 			for (int i = 0; i < 4; i++) {
-				int ny = y + dy[i];
-				int nx = x + dx[i];
+				int ny = current.y + dy[i];
+				int nx = current.x + dx[i];
 
 				if (ny < 0 || ny >= n || nx < 0 || nx >= n)
 					continue;
 
-				// [0][0] -> [y][x] -> [ny][nx] 의 최소 비용 nw
-				int nw = (map[ny][nx] == 0) ?
-						count[y][x] + 1 : count[y][x];			// 검은 방(0) 이면 바꿈
-//				int nw = (map[ny][nx] == 0) ? w + 1 : w;		// 검은 방(0) 이면 바꿈
+				// [0][0] -> 현재 [y][x] -> [ny][nx] 의 최소 비용 nw
+				int nw = (map[ny][nx] == 0) ? current.w + 1 : current.w;	// 검은 방(0) 이면 바꿈
+//				int nw = (map[ny][nx] == 0) ?
+//						count[current.y][current.x] + 1 : count[current.y][current.x];
 
-				// [y][x] 를 경유하지 않고, [ny][nx] 로 가는 비용: count[ny][nx]
-				// [y][x] 를 경유해서 갈 때의 비용: nw
-				if (count[ny][nx] > nw) {		// [y][x] 를 경유해서 갈 때, 비용 더 적은 경우
+				// 현재 [y][x] 를 경유하지 않고, [ny][nx] 로 가는 비용: count[ny][nx]
+				// 현재 [y][x] 를 경유해서 갈 때의 비용: nw
+				if (count[ny][nx] > nw) {		// 현재 [y][x] 를 경유해서 갈 때, 비용 더 적은 경우
 					count[ny][nx] = nw;
 					pq.add(new Node(ny, nx, nw));
 				}
@@ -112,11 +113,11 @@ public class Main_Dijkstra {
 			String input = br.readLine();
 			for (int j = 0; j < n; j++) {
 				map[i][j] = Character.getNumericValue(input.charAt(j));
-				count[i][j] = Integer.MAX_VALUE;	// 다익스트라 최소 비용 배열 초기화
+				count[i][j] = INF;		// 다익스트라 최소 비용 배열 초기화
 			}
 		}
 
-		solution();
+		dijkstra();
 		System.out.println(minCount);
 	}
 }
