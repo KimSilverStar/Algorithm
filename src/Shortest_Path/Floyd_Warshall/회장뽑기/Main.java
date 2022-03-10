@@ -12,7 +12,6 @@ import java.util.*;
      - dist[][] 모든 원소 INF 로 초기화 후, dist[i][i] = 0
      - INF = 노드 최대 개수 50 x 간선 가중치 최대값 1 = 50
    2) 비용 배열에 간선 가중치 저장
-     - 노드 i -> 노드 j 로 가는 간선이 여러 개일 경우, 더 작은 가중치로 저장
    3) 3중 for문
      - 중간 경유 노드, 시작 노드, 끝 노드
      - 중간 경유 노드를 거쳐서 갈 때, 비용이 더 작은 경우
@@ -21,7 +20,7 @@ import java.util.*;
 
 2. 자료구조
  - int[][] dist: 비용 배열
-   => 최대값 INF = 50 이므로, int 가능
+   => 최대값 INF = 50 << 21억 이므로, int 가능
 
 
 3. 시간 복잡도
@@ -36,10 +35,9 @@ import java.util.*;
 
 public class Main {
 	static int n;						// 회원 수
-	static int[] scores;				// 각 회원의 점수
 
+	static int[] scores;				// 각 회원의 점수
 	static int candidateScore = Integer.MAX_VALUE;	// 후보 점수 (회원 최소 점수)
-	static int candidateCount;						// 후보의 수
 	static List<Integer> candidateList = new ArrayList<>();		// 후보 리스트
 
 	static final int INF = 50;
@@ -63,10 +61,8 @@ public class Main {
 
 		// 후보 인원 수, 후보 인원 찾기
 		for (int i = 1; i <= n; i++) {
-			if (candidateScore == scores[i]) {
+			if (candidateScore == scores[i])
 				candidateList.add(i);
-				candidateCount++;
-			}
 		}
 	}
 
@@ -120,7 +116,7 @@ public class Main {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(candidateScore).append(" ").
-				append(candidateCount).append("\n");
+				append(candidateList.size()).append("\n");
 		for (int i : candidateList)
 			sb.append(i).append(" ");
 		System.out.println(sb);
