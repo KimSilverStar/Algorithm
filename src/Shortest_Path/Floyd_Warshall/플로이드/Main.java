@@ -9,20 +9,20 @@ import java.util.StringTokenizer;
 
  1) 비용 배열 초기화
    - cost[i][i] = 0, 나머지 cost[i][j] = INF
+   - INF = (노드 최대 개수 10^2) x (간선 가중치 최대값 10^5) = 10^7
  2) 비용 배열에 간선의 가중치 저장
    - startV -> destV 노드로 가는 간선이 여러 개 존재할 경우, 가장 작은 가중치로 저장
      => cost[startV][destV] = min(cost[startV][destV], weight)
- 3) 모든 노드에 대해 해당 노드를 거쳐서 갈 때, 비용이 더 작으면 갱신
-   - 3중 for 문: 중간 경유 노드, 시작 노드, 끝 노드
+ 3) 3중 for 문
+   - 중간 경유 노드, 시작 노드, 끝 노드
+   - 중간 경유 노드를 거쳐서 갈 때, 비용이 더 작은 경우
+     => 비용 갱신
 
 
 2. 자료구조
- - int[][] cost
+ - int[][] cost: 비용 배열
    ex) cost[i][j]: i번 노드 -> j번 노드로 가는 최소 비용
-   ① 자료형: 최대값 INF = 노드 최대 개수(100) x 각 간선 최대 가중치 값(10^5)
-     = 10^7 << 21억 이므로, int 가능
-   ② 메모리: 4 x n x n byte
-     => n 최대값 대입: 4 x 100 x 100 byte = 4 x 10^4 byte = 40 KB
+   => 비용 최대값 INF = 10^7 << 21억 이므로, int 가능
 
 
 3. 시간 복잡도
@@ -34,13 +34,14 @@ public class Main {
 	static int n, m;			// 도시(노드) 개수 n, 버스(간선) 개수 m
 
 	static final int INF = 10_000_000;
-	static int[][] cost;
+	static int[][] cost;		// 비용 배열
 
 	static void floyd() {
-		for (int k = 1; k <= n; k++) {				// 경유 노드
-			for (int i = 1; i <= n; i++) {			// 시작 노드
-				for (int j = 1; j <= n; j++) {		// 끝 노드
-					// 3) 모든 노드에 대해 해당 노드를 거쳐서 갈 때, 비용이 더 작으면 갱신
+		// 3) 3중 for 문 - 중간 경유 노드, 시작 노드, 끝 노드
+		for (int k = 1; k <= n; k++) {
+			for (int i = 1; i <= n; i++) {
+				for (int j = 1; j <= n; j++) {
+					// 중간 경유 노드를 거쳐서 갈 때, 비용이 더 작은 경우 비용 갱신
 					if (cost[i][j] > cost[i][k] + cost[k][j])
 						cost[i][j] = cost[i][k] + cost[k][j];
 				}
