@@ -13,9 +13,9 @@ import java.util.StringTokenizer;
    해당 도시(노드)로 돌아오는 싸이클의 최소 가중치 합
  - 모든 노드 -> 나머지 다른 모든 노드의 최단경로
    => 플로이드-와샬 (dist[i][i] = 0 초기화)
- - 모든 노드 -> 모든 노드(본인 노드 포함)의 최단경로
+ - 모든 노드 -> 모든 노드(본인 노드 싸이클 포함)의 최단경로
    => 플로이드-와샬 (dist[i][i] = INF 초기화)
-   => 싸이클의 가중치까지 포함
+   => 노드 본인으로 돌아오는 싸이클의 가중치까지 확인
 
  1) 비용 배열 초기화
    - dist[i][i] 를 포함하여, dist[][] 를 모두 INF 로 초기화
@@ -92,9 +92,8 @@ public class Main {
 
 		// minDistSum 찾기
 		for (int i = 1; i <= v; i++) {
-			if (dist[i][i] == INF)		// 노드 i -> 노드 i 싸이클 존재 X
-				continue;
-			minDistSum = Math.min(minDistSum, dist[i][i]);
+			if (dist[i][i] != INF)		// 노드 i -> 노드 i 싸이클 존재하는 경우만 확인
+				minDistSum = Math.min(minDistSum, dist[i][i]);
 		}
 
 		if (minDistSum == Integer.MAX_VALUE)	// 싸이클이 1개도 없는 경우
