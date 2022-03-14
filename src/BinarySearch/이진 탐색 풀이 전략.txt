@@ -1,0 +1,38 @@
+* 이진 탐색 의심할 만한 상황
+ - 어떤 target 값을 여러 번 탐색해야 하는 경우
+ - 입력 개수 n >= 10^5 정도인 경우
+   => 이진 탐색을 위해 정렬(n log_2 n) 할 경우, 시간 초과 발생 안하는 범위
+
+
+* 핵심 코드 [내꺼]
+int binarySearch(int start, int end, int target) {
+    if (start > end) {      // target 이 없는 경우
+        ~
+        return;
+    }
+
+    int mid = (start + end) / 2;
+    if (numbers[mid] < target)
+        return binarySearch(mid + 1, end, target);
+    else if (numbers[mid] > target)
+        return binarySearch(start, mid - 1, target);
+    else            // target 찾은 경우
+        return;
+}
+
+
+* 핵심 코드 [장고]
+int binarySearch(int start, int end, int target) {
+    if (start == end) {
+       if (numbers[start] == target)   // target 찾은 경우
+            ~
+
+       return;
+    }
+
+    int mid = (start + end) / 2;
+    if (numbers[mid] < target)
+        binarySearch(mid + 1, end, target);
+    else            // target 값 이하인 경우 (target 보다 작은 경우 or 찾은 경우)
+        binarySearch(start, mid, target);
+}
