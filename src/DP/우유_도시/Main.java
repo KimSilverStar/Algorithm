@@ -11,15 +11,21 @@ import java.util.StringTokenizer;
 
 /*
 1. 아이디어
- - 시작 지점 [0][0] -> 끝 지점 [n-1][n-1]로 차례로 가면서, DP 배열 채워나감
+ - 우유 순서: 딸기(0) -> 초코(1) -> 바나나(2)
+ - 최근에 마신 우유 종류에 따라
+   현재 위치의 우유를 마실 수 있는지 여부가 결정됨
+   => 최근 마신 "우유 종류를 구분"하여, DP 배열을 채움
 
  1) DP 배열 정의: int[][][] dp
    - dp[i][j][k]: [i][j] 지점까지 가장 최근에 k 우유를 마셨을 때,
      마신 최대 우유 개수
      (우유 종류 k: 딸기 0, 초코 1, 바나나 2)
+   - 출력, 최대 우유 개수 = dp[n-1][n-1][k] 중, 최대값
 
  2) 규칙 및 점화식
-   - 현재 위치의 우유 종류 map[i][j] = currentMilk 라 하면,
+   - 현재 위치의 우유 종류 currentMilk 와 각 [k] 우유 종류에 따라 DP 배열 채움
+     => 현재 currentMilk 를 마시는 경우, 못 마시는 경우
+
    ① currentMilk == 딸기(0)이면, dp[i][j][딸기 0] = max(dp[i][j-1][이전 바나나 2] + 1, dp[i-1][j][이전 바나나 2] + 1)
       					  아니면, dp[i][j][딸기 0] = max(dp[i][j-1][딸기 0], dp[i-1][j][딸기 0])
       							  => 현재 딸기(0)를 안마심
@@ -31,8 +37,6 @@ import java.util.StringTokenizer;
    							dp[i][j][바나나 2] = max(dp[i][j-1][이전 초코 1] + 1, dp[i-1][j][이전 초코 1] + 1)
    					아니면, dp[i][j][바나나 2] = max(dp[i][j][바나나 2], dp[i][j][바나나 2])
 
- => 출력 최대 개수 = dp[n-1][n-1][k] 중, 최대값
-
 
 2. 자료구조
  - int[][][] dp: DP 배열
@@ -42,7 +46,7 @@ import java.util.StringTokenizer;
 
 3. 시간 복잡도
  - DP 배열 채우기: O(n^2)
-   => n 최대값 대입: (10^3)^2 = 10^6
+   => n 최대값 대입: (10^3)^2 = 10^6 << 1억
 */
 
 public class Main {
@@ -101,7 +105,7 @@ public class Main {
 
 		n = Integer.parseInt(br.readLine());
 
-		map = new int[n + 1][n + 1];		// [1] ~ [n] 사용
+		map = new int[n + 1][n + 1];		// [1][1] ~ [n][n] 사용
 		dp = new int[n + 1][n + 1][3];		// [0]행, [0]열은 패딩
 		for (int i = 1; i <= n; i++) {
 			st = new StringTokenizer(br.readLine());
