@@ -1,12 +1,15 @@
 package DP.방_번호;
 import java.io.*;
 import java.util.StringTokenizer;
+import java.math.BigInteger;
 
 /*
 1. 아이디어
  1) DP 배열 정의: String[] dp
    - dp[cost]: cost원 금액 내로 만들 수 있는 최대 숫자 문자열
-   - 출력, 최대 숫자: dp[m]
+   - 출력, 최대 숫자: BigInteger(dp[m])
+     => dp[] 원소에 Leading-Zero 문자열이 저장될 수 있으므로,
+        BigInteger 를 이용하여 Leading-Zero 문자열을 제거
 
  2) 규칙 및 점화식
    - 초기식: 입력 costs[]의 각 원소 cost에 대해, dp[cost] = String(i)
@@ -24,11 +27,11 @@ import java.util.StringTokenizer;
 
 
 3. 시간 복잡도
- - DP 배내 채우기: O(n x m)
+ - DP 배열 채우기: O(n x m)
    => n, m 최대값 대입: 10 x 50 = 500 << 2억
 */
 
-public class Main {
+public class Main_BigInteger {
 	static int n;					// 0 ~ (n-1) 방 번호 숫자
 	static int[] costs;				// 각 방 번호 숫자의 비용
 	static int m;					// 전체 보유 금액
@@ -42,30 +45,14 @@ public class Main {
 		if (str2 == null)
 			return str1;
 
-		if (str1.length() > str2.length())
-			return str1;
-		else if (str1.length() < str2.length())
-			return str2;
-
-		if (str1.compareTo(str2) > 0)
-			return str1;
-		else
-			return str2;
-
-//		for (int i = 0; i < str1.length(); i++) {
-//			if (str1.charAt(i) > str2.charAt(i))
-//				return str1;
-//			else if (str1.charAt(i) < str2.charAt(i))
-//				return str2;
-//		}
-//		return str1;
+		BigInteger b1 = new BigInteger(str1);
+		BigInteger b2 = new BigInteger(str2);
+		return b1.compareTo(b2) > 0 ? str1 : str2;
 	}
 
 	static void solution() {
 		// 초기식: 입력 cost 금액에 해당하는 숫자로 dp[cost] ~ dp[m] 초기화
-		// - 숫자 "0"의 비용 costs[0]은 제외, costs[1] 부터 dp[] 채움
-		// => "02" 같은 Leading Zero 를 제외하고 dp[]에 저장하기 위함
-		for (int i = 1; i < n; i++) {
+		for (int i = 0; i < n; i++) {
 			for (int totalCost = costs[i]; totalCost <= m; totalCost++)
 				dp[totalCost] = getMaxStr(dp[totalCost], digitStr[i]);
 		}
@@ -82,15 +69,15 @@ public class Main {
 					continue;
 
 				dp[totalCost] = getMaxStr(
-						dp[totalCost], dp[totalCost - cost] + digitStr[i]
+						dp[totalCost], dp[totalCost - cost] + dp[cost]
 				);
 			}
 		}
 
-		if (dp[m] == null)		// 숫자 "0" 만 살 수 있는 경우
-			maxNumStr = "0";
-		else
-			maxNumStr = dp[m];
+		// dp[m]에 Leading-Zero 존재할 수 도 있음
+		// dp[m] -> BigInteger -> String 으로 변환하여, Leading-Zero 문자열 제거
+		BigInteger b = new BigInteger(dp[m]);
+		maxNumStr = b.toString();
 	}
 
 	public static void main(String[] args) throws IOException {
