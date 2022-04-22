@@ -4,23 +4,23 @@ import java.io.*;
 /*
 1. 아이디어
  1) DP 배열 정의: String[][] dp
-   - dp[i][j]: str1의 [i]번째 문자까지와 str2의 [j]번째 문자까지에 대한 LCS
-   - 출력: dp[str1.length()][str2.lenength()]
+   - dp[i][j]: str1[i] 문자까지와 str2[j] 문자까지에 대한 LCS 문자열
+   - 출력, LCS 문자열: dp[str1.length()][str2.lenength()]
 
  2) 규칙 및 점화식
    - 2중 for문으로 str1의 각 문자, str2의 각 문자 확인 비교
-   ① str1[i] 문자와 str2[j] 문자가 다른 경우
+   ① str1[i] 문자 != str2[j] 문자인 경우
      - dp[i][j] = max(dp[i-1][j], dp[i][j-1])
        => 윗 칸 or 왼쪽 칸 중, 길이가 더 큰 문자열
-   ② str1[i] 문자와 str2[j] 문자가 같은 경우
+   ② str1[i] 문자 == str2[j] 문자인 경우
      - dp[i][j] = dp[i-1][j-1] + str1[i]
        => dp[i-1][j-1]의 문자열에 동일 문자 str1[i] 추가
 
 
 2. 자료구조
  - String[][] dp: DP 배열
-   ※ 메모리: 최대 (str1 최대 길이) x (str2 최대 길이) x (LCS 문자열 최대 길이) byte
-     => 대략 10^3 x 10^3 x 10^3 byte = 10^9 byte = 10^3 MB >> 256 MB
+   ※ 메모리: 대략 최대 (str1 최대 길이) x (str2 최대 길이) x (LCS 문자열 최대 길이) byte
+     => 10^3 x 10^3 x 10^3 byte = 10^9 byte = 10^3 MB >> 256 MB
      => 메모리 초과 !!!
 
 

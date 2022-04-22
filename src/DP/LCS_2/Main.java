@@ -4,27 +4,31 @@ import java.io.*;
 /*
 1. 아이디어
  1) DP 배열 정의: int[][] dp
-   - dp[i][j]: str1의 [i]번째 문자까지와 str2의 [j]번째 문자까지에 대한 LCS 길이
+   - dp[i][j]: str1[i] 문자까지와 str2[j] 문자까지에 대한 LCS 길이
+   - 출력, 최종 LCS 길이: dp[len1][len2]
 
  2) 규칙 및 점화식
    - 2중 for문으로 str1의 각 문자, str2의 각 문자 확인 비교
-   ① str1[i] 문자와 str2[j] 문자가 다른 경우
+   ① str1[i] 문자 != str2[j] 문자인 경우
      - dp[i][j] = max(dp[i-1][j], dp[i][j-1])
-       => 윗 칸 or 왼쪽 칸 중, 더 긴 문자열의 길이
-   ② str1[i] 문자와 str2[j] 문자가 같은 경우
+       => 윗 칸 or 왼쪽 칸 중, 더 긴 LCS 길이
+   ② str1[i] 문자 == str2[j] 문자인 경우
      - dp[i][j] = dp[i-1][j-1] + 1
        => dp[i-1][j-1]의 문자열에 동일 문자 str1[i] 추가
+       => 추가된 동일 문자로 인해, LCS 길이 + 1 늘어남
 
  ※ 최종 LCS 문자열 구하기
-  - 마지막 칸 dp[len1][len2]에서 시작하여, 거슬러 올라가면서 확인
-  ① 현재 칸과 윗 칸 or 왼쪽 칸이 LCS 길이(dp 배열 원소) 같은 경우
-    => "LCS 길이에 변화가 없다" == "LCS 문자열에 추가된 동일 문자가 없다"
-	=> 해당 윗 칸 or 왼쪽 칸으로 이동
+   - DP 배열(각 상태에서의 LCS 길이)을 채운 순서의 역순으로 추적
+    => LCS 문자열이 역순으로 저장됨 (결과 값을 역순으로 출력)
+  - 마지막 칸 dp[len1][len2] 에서 시작하여, 거슬러 올라가면서 확인
+  ① 현재 칸과 윗 칸 or 왼쪽 칸이 LCS 길이 같은 경우
+	- 해당 윗 칸 or 왼쪽 칸으로 이동
+    => DP 배열을 채우는 과정에서,
+       "LCS 길이에 변화가 없다" == "LCS 문자열에 추가된 동일 문자가 없다"
   ② 현재 칸과 윗 칸, 왼쪽 칸이 LCS 길이 다른 경우 (LCS 길이 감소하는 경우)
+    - 현재 칸에 해당하는 문자를 추가하고, 왼쪽 위 대각선 칸으로 이동
     => "현재 칸에 비해 윗 칸, 왼쪽 칸의 LCS 길이가 줄어들었다"
-       == "이전 윗 칸 or 왼쪽 칸으로부터 LCS 문자열에 추가된 동일 문자가 있다"
-    => 현재 칸에 해당하는 문자를 추가하고, 왼쪽 위 대각선 칸으로 이동
-  => 추적한 LCS 문자열은 역순으로 저장됨
+       == DP 배열을 채우는 과정에서, "이전 윗 칸 or 왼쪽 칸으로부터 LCS 문자열에 추가된 동일 문자가 있다"
 
 
 2. 자료구조
@@ -40,18 +44,18 @@ import java.io.*;
 
 public class Main {
 	static String str1, str2;
-	static int maxLength;			// LCS 최대 길이
-	static StringBuilder LCS = new StringBuilder();
+	static int maxLength;			// 출력, LCS 최대 길이
+	static StringBuilder LCS = new StringBuilder();		// 출력, LCS 문자열
 	static int[][] dp;
 
 	static void solution() {
 		// 1. DP 배열 채우기
 		for (int i = 1; i <= str1.length(); i++) {
 			for (int j = 1; j <= str2.length(); j++) {
-				// str1[i] 문자와 str2[j] 문자가 같은 경우
+				// str1[i] 문자 == str2[j] 문자인 경우
 				if (str1.charAt(i-1) == str2.charAt(j-1))
 					dp[i][j] = dp[i-1][j-1] + 1;
-				// str1[i] 문자와 str2[j] 문자가 다른 경우
+				// str1[i] 문자 != str2[j] 문자인 경우
 				else
 					dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
 			}
@@ -68,7 +72,7 @@ public class Main {
 		int j = str2.length();
 
 		while (i != 0 && j != 0) {
-			// 현재 칸과 윗 칸 or 왼쪽 칸이 LCS 길이(dp 배열 원소) 같은 경우
+			// 현재 칸과 윗 칸 or 왼쪽 칸이 LCS 길이 같은 경우
 			if (dp[i][j] == dp[i-1][j])
 				i--;
 			else if (dp[i][j] == dp[i][j-1])
