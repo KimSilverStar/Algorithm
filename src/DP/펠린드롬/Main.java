@@ -5,18 +5,18 @@ import java.util.StringTokenizer;
 /*
 1. 아이디어
  - 회문 판단 1번: O(len / 2)	(len: 문자열 길이)
- - 길이 n에 대해 회문 판단 m번: O( (n / 2) x m )
+ - 길이 n 문자열에 대해 회문 판단 m번: O( (n / 2) x m )
    => n, m 최대값 대입: 10^3 x 10^6 = 10^9 >> 2.5억 으로, 시간 초과 !!!
    => DP로 풀이
 
  1) DP 배열 정의: boolean[][] dp
-  - dp[i][j] = numbers[i] ~ numbers[j] 까지의 수의 회문 여부
+  - dp[i][j]: numbers[i] ~ numbers[j] 까지의 수의 회문 여부
     => i: 시작 S, j: 끝 E
     => 행렬 대각선 기준으로 윗 부분만 사용 (헹렬 절반 사용)
 
  2) 규칙 및 점화식
    - 초기식 ①: 행렬 대각선 dp[i][i] = true
-     => 숫자 1개인 경우
+     => 숫자 1개인 경우, 무조건 회문
    - 초기식 ②: dp[i][i+1] = (numbers[i] == numbers[i+1])
      => 숫자 2개인 경우, 두 숫자의 동일 여부
    - 점화식: dp[i][j] = (numbers[i] == numbers[j] && dp[i+1][j-1])
@@ -31,7 +31,7 @@ import java.util.StringTokenizer;
 
 3. 시간 복잡도
  - DP 배열 채우기: 대략 O(n^2)
-   => n 최대값 대입: 2,000^2 = 4 x 10^6
+   => n 최대값 대입: 2,000^2 = 4 x 10^6 << 2.5억
 */
 
 class Pair {
