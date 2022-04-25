@@ -14,7 +14,7 @@ import java.io.*;
    1) 1 ~ mid 까지의 합 > 목표 합 s 인 경우
      - start = start, end = mid - 1 로 다시 탐색
    2) 1 ~ mid 까지의 합 < 목표 합 s 인 경우
-     - 최대 자연수 값 n 을 mid 로 갱신
+     - 최대 자연수 개수 n 갱신
        => n = max(n, mid)
      - start = mid + 1, end = end 로 다시 탐색
    3) 1 ~ mid 까지의 합 = 목표 합 s 인 경우
@@ -23,7 +23,7 @@ import java.io.*;
 
 2. 자료구조
  - long s: 입력 자연수의 합
-   => s > 21억 이므로, long
+   => s > 21억 이므로, int 불가능하여 long 사용
 
 
 3. 시간 복잡도
@@ -33,16 +33,17 @@ import java.io.*;
 
 public class Main {
 	static long s;
-	static long n;			// 출력, 최대 자연수
+	static long n;			// 출력, 최대 자연수 개수
 
 	static void binarySearch(long start, long end) {
 		if (start > end)
 			return;
 
 		long mid = (start + end) / 2;
-		long sum = calcSum(mid);		// 1 ~ mid 까지의 합
-		if (sum > s)
+		long sum = calcSum(mid);			// 1 ~ mid 까지의 합
+		if (sum > s) {
 			binarySearch(start, mid - 1);
+		}
 		else if (sum < s) {
 			n = Math.max(n, mid);
 			binarySearch(mid + 1, end);
