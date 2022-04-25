@@ -41,7 +41,7 @@ public class Main2 {
 			return binarySearch(mid + 1, end, target);
 		else if (numbers[mid] > target)
 			return binarySearch(start, mid - 1, target);
-		else				// target 찾은 경우
+		else					// target 찾은 경우
 			return true;
 	}
 
