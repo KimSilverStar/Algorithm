@@ -33,28 +33,27 @@ import java.util.StringTokenizer;
       = (18 x 10^5) log_2 10 ~= 54 x 10^5 << 1억
 */
 
-public class Main {
-	static int n, m;				// n개 심사대, m명 인원
-	static int[] times;				// 각 심사대의 심사 시간
-	static int maxTime;				// 최대 심사 시간 (times[] 에서 최대값)
-	static long minSumTime = Long.MAX_VALUE;		// 출력, 최소 시간 합
+public class Main_Iterative {
+	static int n, m;			// n개 심사대, m명 인원
+	static int[] times;			// 각 심사대의 심사 시간
+	static int maxTime;
+	static long minSumTime = Long.MAX_VALUE;		// 출력, 최소 시간
 
 	static void binarySearch(long start, long end) {
-		if (start > end)
-			return;
+		while (start <= end) {
+			long mid = (start + end) / 2;
+			long sum = 0;
 
-		long mid = (start + end) / 2;
+			for (int i = 0; i < n; i++)
+				sum += (mid / times[i]);
 
-		long sum = 0;					// mid 초 안에 심사 가능한 총 인원
-		for (int i = 0; i < n; i++)
-			sum += (mid / times[i]);
-
-		if (sum < m) {
-			binarySearch(mid + 1, end);
-		}
-		else {		// sum >= m
-			minSumTime = Math.min(minSumTime, mid);
-			binarySearch(start, mid - 1);
+			if (sum < m) {
+				start = mid + 1;
+			}
+			else {
+				minSumTime = Math.min(minSumTime, mid);
+				end = mid - 1;
+			}
 		}
 	}
 
@@ -73,8 +72,7 @@ public class Main {
 			maxTime = Math.max(maxTime, times[i]);
 		}
 
-		// maxTime x m: 최장 심사 시간 x m 명
-		binarySearch(0, (long) maxTime * m);
+		binarySearch(0, (long)maxTime * m);
 		System.out.println(minSumTime);
 	}
 }
