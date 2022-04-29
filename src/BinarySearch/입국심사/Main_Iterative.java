@@ -36,14 +36,14 @@ import java.util.StringTokenizer;
 public class Main_Iterative {
 	static int n, m;			// n개 심사대, m명 인원
 	static int[] times;			// 각 심사대의 심사 시간
-	static int maxTime;
-	static long minSumTime = Long.MAX_VALUE;		// 출력, 최소 시간
+	static int maxTime;			// 최대 심사 시간 (times[] 에서 최대값)
+	static long minSumTime = Long.MAX_VALUE;		// 출력, 최소 시간 합
 
 	static void binarySearch(long start, long end) {
 		while (start <= end) {
 			long mid = (start + end) / 2;
-			long sum = 0;
 
+			long sum = 0;
 			for (int i = 0; i < n; i++)
 				sum += (mid / times[i]);
 
