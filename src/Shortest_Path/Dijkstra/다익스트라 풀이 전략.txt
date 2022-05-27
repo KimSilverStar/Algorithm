@@ -36,8 +36,8 @@
 
 * 핵심 코드
 Arrays.fill(dist, INF);
-dist[k] = 0;                            // 시작 노드: k
-pq.add(new Node(k, 0));
+dist[startV] = 0;                            // 시작 노드: startV
+pq.add(new Node(startV, 0));
 
 while (!pq.isEmpty()) {
     // 시작 노드에서부터 가장 가까운 노드
