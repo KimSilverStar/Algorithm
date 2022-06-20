@@ -1,4 +1,4 @@
-package DataStructure.HashMap.숫자놀이;
+package DataStructure.Map_Set.숫자놀이;
 import java.io.*;
 import java.util.*;
 
