@@ -42,10 +42,10 @@ public class Main_Iterative {
 	static void binarySearch(long start, long end) {
 		while (start <= end) {
 			long midLength = (start + end) / 2;			// int 사용 시, start + end 과정에서 Overflow 발생 가능
-			int lanCount = getLanCount((int)midLength);	// midLength 길이로 만드는 랜선 개수
+			int lanCount = getLanCount((int) midLength);	// midLength 길이로 만드는 랜선 개수
 
 			if (lanCount >= n) {
-				resultMaxLength = Math.max(resultMaxLength, (int)midLength);
+				resultMaxLength = Math.max(resultMaxLength, (int) midLength);
 				start = midLength + 1;
 			}
 			else {
