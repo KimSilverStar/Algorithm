@@ -1,4 +1,4 @@
-package DataStructure.HashMap.문자열_집합;
+package DataStructure.Map_Set.문자열_집합;
 import java.io.*;
 import java.util.*;
 
@@ -7,10 +7,15 @@ import java.util.*;
  - 문자열 집합에서 검색 문자열이 몇 개 있는지 개수 세기
 
 2. 자료구조
- - HashSet<String>: 전체 n개 문자열 집합 S
+ - HashSet<String>: 입력 n개 문자열 (집합 S)
 
 3. 시간 복잡도
- - O(n)
+ 1) 입력 n개 문자열 (집합 S) 저장: O(n)
+   => 최대 10^5
+ 2) 집합 S 에서 m개 문자열 검색: O(m)
+   => 최대 10^5
+ - 총 시간 복잡도: O(n + m)
+   => 최대 10^5 + 10^5 = 2 x 10^5 << 2억
 */
 
 public class Main {
