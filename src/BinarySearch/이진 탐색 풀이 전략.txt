@@ -4,6 +4,13 @@
    => 이진 탐색을 위해 정렬(n log_2 n) 할 경우, 시간 초과 발생 안하는 범위
 
 
+* 주의사항: int형 Overflow
+ - mid = (start + end) / 2
+ - mid 값을 int 형 사용 시, Overflow 발생 여부 확인할 것
+   => (start + end) 값이 int 범위를 벗어난다면,
+      start, end, mid 를 long 으로 선언
+
+
 * 핵심 코드 [내꺼]
 int binarySearch(int start, int end, int target) {
     if (start > end) {      // target 이 없는 경우
