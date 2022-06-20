@@ -1,4 +1,4 @@
-package DataStructure.HashMap.생태학;
+package DataStructure.Map_Set.생태학;
 import java.io.*;
 import java.util.*;
 
@@ -11,6 +11,8 @@ import java.util.*;
  1) 입력 받으면서, 트리 맵에 (나무 종 이름 String, 등장 횟수 Integer) 저장
  2) for문으로 트리 맵에서 원소들을 확인
    - 각 나무 종 이름에 대해, 차지 비율 계산
+   - 차지 비율: 소수점 넷째 자리까지만 남김
+     => String.format("%.4f", 차지 비율 실수 값)
 
 
 2. 자료구조
@@ -33,7 +35,7 @@ public class Main {
 		// 2) 각 나무 종 별로 차지 비율 계산
 		for (String key : treeMap.keySet()) {
 			int count = treeMap.get(key);
-			double rate = (double) count / totalCount * 100.0;
+			double rate = ((double) count / totalCount) * 100;
 
 			// 소수점 넷째 자리까지만 남김
 			sb.append(key).append(" ")
@@ -54,12 +56,12 @@ public class Main {
 
 			totalCount++;
 
-			if (!treeMap.containsKey(key)) {
-				treeMap.put(key, 1);
-			}
-			else {
+			if (treeMap.containsKey(key)) {
 				int count = treeMap.get(key);
 				treeMap.put(key, count + 1);
+			}
+			else {		// 없는 경우
+				treeMap.put(key, 1);
 			}
 		}
 
