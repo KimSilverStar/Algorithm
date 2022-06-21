@@ -8,13 +8,14 @@ import java.util.StringTokenizer;
  - 만들 수 있는 최대 랜선 길이 구하기
  => 길이를 몇으로 하여 n개 이상으로 만들지가 관건
 
- - 1 ~ minLength 이진 탐색
- - midLength 길이로 자르면, 몇개의 랜선을 만드는지 계산
- 1) 만든 랜선 개수 >= n 인 경우
-   - 출력 maxLength 갱신
+ - 자르는 랜선 길이를 길게 할 수록, 만들 수 있는 랜선 개수 적어짐
+ - 1 ~ maxLength (입력 k개 랜선 길이 중, 최대 길이) 이진 탐색
+ - midLength 길이로 잘랐을 때, 만드는 랜선 개수 lanCount 계산
+ 1) lanCount >= n 인 경우
+   - 출력 resultMaxLength 갱신
    - start = midLength + 1, end = 그대로 다시 탐색
      => 더 큰 길이로 잘라서, 더 적은 개수로 만들 수 있는지 확인
- 2) 만든 랜선 개수 < n 인 경우
+ 2) lanCount < n 인 경우
    - start = 그대로, end = midLength - 1 로 다시 탐색
      => 더 짧은 길이로 잘라서, 더 많은 개수로 만들 수 있는지 확인
 
@@ -72,9 +73,7 @@ public class Main_Iterative {
 
 		lans = new int[k];
 		for (int i = 0; i < k; i++) {
-			int lan = Integer.parseInt(br.readLine());
-			lans[i] = lan;
-
+			lans[i] = Integer.parseInt(br.readLine());
 			maxLength = Math.max(maxLength, lans[i]);
 		}
 
