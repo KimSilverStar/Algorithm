@@ -12,15 +12,13 @@ import java.util.*;
 
 /*
 1. 아이디어
- - [1][1] ~ [n][n]의 n^2 개 지점에서 씨앗을 최소 비용으로 심는 3개 지점 선택하기
+ - [0][0] ~ [n-1][n-1]의 n^2 개 지점에서 씨앗을 최소 비용으로 심는 3개 지점 선택하기
    => 중복 X, 순서 상관 X 하는 조합 Combination
  - 씨앗을 심을 수 있는 3개 지점 선택 후, cost 계산 및 출력 minCost 갱신
    => 백트래킹: 현재 지점 [y][x] 를 선택 O / X
 
 2. 자료구조
- - long minCost: 출력, 최소 비용
-   => 최대 3 x 200^5 = 96 x 10^10 (9천 6백억) >> 21억
-   => int 불가능 하므로, long 사용
+ - boolean[][]: 만개한 꽃잎 위치 표시
 
 3. 시간 복잡도
  - 전체 조합 개수: C(n^2, 3)
@@ -30,7 +28,7 @@ import java.util.*;
 public class Main {
 	static int n;					// n x n 행렬
 	static int[][] map;
-	static long minCost = Integer.MAX_VALUE;		// 출력, 최소 비용
+	static int minCost = Integer.MAX_VALUE;			// 출력, 최소 비용
 	static boolean[][] blossoms;					// 만개한 꽃잎 위치 표시
 	static int[] dy = { -1, 1, 0, 0 };
 	static int[] dx = { 0, 0, -1, 1 };
@@ -98,8 +96,8 @@ public class Main {
 	}
 
 	/* 씨앗 3개를 심는 비용 계산 */
-	static long calcCost() {
-		long cost = 0;
+	static int calcCost() {
+		int cost = 0;
 
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
