@@ -1,4 +1,4 @@
-package Samsung_Coding_Test.주사위_굴리기_2;
+package Samsung_Coding_Test.주사위_굴리기;
 import java.io.*;
 import java.util.*;
 
